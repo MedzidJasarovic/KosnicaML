@@ -1,0 +1,26 @@
+# --- Deep learning (Apple Silicon / MPS) ---
+torch>=2.5
+torchvision>=0.20
+
+# --- Podaci i metrike ---
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+Pillow>=10.3
+
+# --- Vizualizacija (confusion matrix, krive ucenja) ---
+matplotlib>=3.8
+seaborn>=0.13
+
+# --- Export i inferencija modela ---
+onnx>=1.16
+onnxruntime>=1.18
+onnxscript>=0.1          # potreban novom torch.onnx exporteru
+
+# --- Dataset ---
+kaggle>=1.6
+
+# --- Alati ---
+jupyter>=1.0
+ipykernel>=6.29
+tqdm>=4.66

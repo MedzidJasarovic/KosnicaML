@@ -1,0 +1,18 @@
+# Dataset (preuzima se skriptom, ne ide u git)
+data/raw/
+*.zip
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Rezultati treninga - checkpointi su preveliki za git,
+# ali metrike/grafikoni/history se komituju (vidi !izuzetke ispod)
+runs/**/*.pt
+models/*.onnx
+models/*.onnx.data
+
+# macOS
+.DS_Store
