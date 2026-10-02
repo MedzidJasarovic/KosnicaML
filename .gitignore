@@ -16,3 +16,6 @@ models/*.onnx.data
 
 # macOS
 .DS_Store
+
+# logovi treninga
+logs/

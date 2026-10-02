@@ -1,0 +1,44 @@
+{
+  "run": "mobilenet_v3_large_3cls",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "num_classes": 3,
+  "classes": [
+    "zdrava",
+    "varoa_grinje",
+    "drugi_problem"
+  ],
+  "split_prefix": "stratified",
+  "epochs_head": 15,
+  "epochs_finetune": 10,
+  "batch_size": 32,
+  "lr_head": 0.001,
+  "lr_finetune": 1e-05,
+  "seed": 42,
+  "device": "mps",
+  "total_params": 4205875,
+  "train_size": 3620,
+  "val_size": 776,
+  "best_val_macro_f1": 0.9668,
+  "best_stage": "finetune",
+  "best_epoch": 8,
+  "train_seconds": 196.5,
+  "preprocessing": {
+    "resize_size": [
+      232
+    ],
+    "crop_size": [
+      224
+    ],
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  }
+}
