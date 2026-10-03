@@ -4,6 +4,9 @@ ML deo diplomskog rada: transfer learning nad javnim datasetom fotografija pcela
 poredjenje tri arhitekture (MobileNetV3, ResNet50, EfficientNetB0) i integracija
 najboljeg modela u informacioni sistem "Kosnica".
 
+> **Nastavak rada: procitaj prvo [STANJE.md](STANJE.md)** — gde smo stali,
+> donete odluke i komande za nastavak.
+
 ## Setup
 
 ```bash
