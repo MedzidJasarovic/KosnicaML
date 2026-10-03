@@ -1,0 +1,57 @@
+{
+  "run": "efficientnet_b0_3cls",
+  "arch": "efficientnet_b0",
+  "arch_display": "EfficientNetB0",
+  "num_classes": 3,
+  "split": "stratified",
+  "test_size": 776,
+  "accuracy": 0.9111,
+  "macro_f1": 0.8954,
+  "weighted_f1": 0.9124,
+  "macro_precision": 0.8701,
+  "macro_recall": 0.9278,
+  "varroa_recall": 0.9241,
+  "varroa_support": 158,
+  "best_val_macro_f1": 0.9012,
+  "total_params": 4011391,
+  "cpu_latency_ms": 85.4,
+  "train_seconds": 343.6,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "zdrava": {
+      "precision": 0.9701,
+      "recall": 0.8955,
+      "f1": 0.9313,
+      "support": 507
+    },
+    "varoa_grinje": {
+      "precision": 0.8295,
+      "recall": 0.9241,
+      "f1": 0.8743,
+      "support": 158
+    },
+    "drugi_problem": {
+      "precision": 0.8106,
+      "recall": 0.964,
+      "f1": 0.8807,
+      "support": 111
+    }
+  },
+  "confusion_matrix": [
+    [
+      454,
+      30,
+      23
+    ],
+    [
+      10,
+      146,
+      2
+    ],
+    [
+      4,
+      0,
+      107
+    ]
+  ]
+}

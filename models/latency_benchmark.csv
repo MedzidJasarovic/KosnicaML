@@ -1,0 +1,4 @@
+model,klase,onnx_batch1_ms,onnx_median_ms,onnx_p95_ms,onnx_batch8_ms_po_slici,pytorch_batch1_ms,ubrzanje_onnx,fajl_MB,run
+MobileNetV3-Large,3,2.52,2.41,3.1,2.32,40.9,16.2,17.1,mobilenet_v3_large_3cls
+EfficientNetB0,3,4.43,4.29,5.05,4.51,85.4,19.3,16.6,efficientnet_b0_3cls
+ResNet50,3,11.91,11.44,14.43,18.14,12.7,1.1,94.2,resnet50_3cls

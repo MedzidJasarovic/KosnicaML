@@ -1,0 +1,57 @@
+{
+  "run": "mobilenet_v3_large_3cls",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "num_classes": 3,
+  "split": "stratified",
+  "test_size": 776,
+  "accuracy": 0.9704,
+  "macro_f1": 0.9643,
+  "weighted_f1": 0.9706,
+  "macro_precision": 0.9529,
+  "macro_recall": 0.9767,
+  "varroa_recall": 0.9747,
+  "varroa_support": 158,
+  "best_val_macro_f1": 0.9668,
+  "total_params": 4205875,
+  "cpu_latency_ms": 40.9,
+  "train_seconds": 196.5,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "zdrava": {
+      "precision": 0.9939,
+      "recall": 0.9645,
+      "f1": 0.979,
+      "support": 507
+    },
+    "varoa_grinje": {
+      "precision": 0.9167,
+      "recall": 0.9747,
+      "f1": 0.9448,
+      "support": 158
+    },
+    "drugi_problem": {
+      "precision": 0.9483,
+      "recall": 0.991,
+      "f1": 0.9692,
+      "support": 111
+    }
+  },
+  "confusion_matrix": [
+    [
+      489,
+      14,
+      4
+    ],
+    [
+      2,
+      154,
+      2
+    ],
+    [
+      1,
+      0,
+      110
+    ]
+  ]
+}

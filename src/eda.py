@@ -167,9 +167,9 @@ def main(argv=None) -> int:
         "",
         "## Grafikoni",
         "",
-        "![Raspodela klasa](figures/class_distribution.png)",
+        "![Raspodela klasa](report/figures/class_distribution.png)",
         "",
-        "![Primeri po klasi](figures/samples_per_class.png)",
+        "![Primeri po klasi](report/figures/samples_per_class.png)",
         "",
     ]
 

@@ -1,0 +1,57 @@
+{
+  "run": "resnet50_3cls",
+  "arch": "resnet50",
+  "arch_display": "ResNet50",
+  "num_classes": 3,
+  "split": "stratified",
+  "test_size": 776,
+  "accuracy": 0.9716,
+  "macro_f1": 0.9625,
+  "weighted_f1": 0.9718,
+  "macro_precision": 0.9557,
+  "macro_recall": 0.9698,
+  "varroa_recall": 0.962,
+  "varroa_support": 158,
+  "best_val_macro_f1": 0.9673,
+  "total_params": 23514179,
+  "cpu_latency_ms": 12.7,
+  "train_seconds": 760.6,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "zdrava": {
+      "precision": 0.988,
+      "recall": 0.9744,
+      "f1": 0.9811,
+      "support": 507
+    },
+    "varoa_grinje": {
+      "precision": 0.956,
+      "recall": 0.962,
+      "f1": 0.959,
+      "support": 158
+    },
+    "drugi_problem": {
+      "precision": 0.9231,
+      "recall": 0.973,
+      "f1": 0.9474,
+      "support": 111
+    }
+  },
+  "confusion_matrix": [
+    [
+      494,
+      7,
+      6
+    ],
+    [
+      3,
+      152,
+      3
+    ],
+    [
+      3,
+      0,
+      108
+    ]
+  ]
+}

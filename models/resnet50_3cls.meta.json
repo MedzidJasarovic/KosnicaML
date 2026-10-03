@@ -1,0 +1,37 @@
+{
+  "model_version": "resnet50_3cls",
+  "source_run": "resnet50_3cls",
+  "arch": "resnet50",
+  "arch_display": "ResNet50",
+  "num_classes": 3,
+  "classes": [
+    "zdrava",
+    "varoa_grinje",
+    "drugi_problem"
+  ],
+  "input_name": "input",
+  "output_name": "logits",
+  "output_activation": "softmax",
+  "preprocessing": {
+    "resize_shorter_side": 232,
+    "center_crop": 224,
+    "rescale": "pixel / 255.0",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "channel_order": "RGB",
+    "layout": "NCHW"
+  },
+  "test_metrics": {
+    "accuracy": 0.9716,
+    "macro_f1": 0.9625,
+    "varroa_recall": 0.962
+  }
+}

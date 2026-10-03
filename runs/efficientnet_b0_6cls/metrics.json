@@ -1,0 +1,108 @@
+{
+  "run": "efficientnet_b0_6cls",
+  "arch": "efficientnet_b0",
+  "arch_display": "EfficientNetB0",
+  "num_classes": 6,
+  "split": "stratified",
+  "test_size": 776,
+  "accuracy": 0.8273,
+  "macro_f1": 0.702,
+  "weighted_f1": 0.8334,
+  "macro_precision": 0.6442,
+  "macro_recall": 0.82,
+  "varroa_recall": 0.9304,
+  "varroa_support": 158,
+  "best_val_macro_f1": 0.764,
+  "total_params": 4015234,
+  "cpu_latency_ms": 84.2,
+  "train_seconds": 345.0,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "healthy": {
+      "precision": 0.9794,
+      "recall": 0.8442,
+      "f1": 0.9068,
+      "support": 507
+    },
+    "few_varroa_hive_beetles": {
+      "precision": 0.6027,
+      "recall": 0.5057,
+      "f1": 0.55,
+      "support": 87
+    },
+    "varroa_small_hive_beetles": {
+      "precision": 0.5727,
+      "recall": 0.8873,
+      "f1": 0.6961,
+      "support": 71
+    },
+    "ant_problems": {
+      "precision": 0.7312,
+      "recall": 0.9855,
+      "f1": 0.8395,
+      "support": 69
+    },
+    "hive_being_robbed": {
+      "precision": 0.6792,
+      "recall": 0.9474,
+      "f1": 0.7912,
+      "support": 38
+    },
+    "missing_queen": {
+      "precision": 0.3,
+      "recall": 0.75,
+      "f1": 0.4286,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      428,
+      25,
+      11,
+      22,
+      15,
+      6
+    ],
+    [
+      5,
+      44,
+      36,
+      2,
+      0,
+      0
+    ],
+    [
+      3,
+      4,
+      63,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      68,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      36,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      3
+    ]
+  ]
+}

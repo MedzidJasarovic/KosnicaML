@@ -124,15 +124,71 @@ Dodatno su uvedene težine klasa u funkciji greške,
 
 ---
 
-## C. Rezultati (validacioni skup — test još nije evaluiran)
+## C. Rezultati
+
+### C0. TEST rezultati — 776 slika, svaki model evaluiran tačno jednom
+
+Val vrednosti ispod služile su samo za izbor epohe; ovo su merodavne brojke.
+
+**3 klase:**
+
+| Arhitektura | Accuracy | Macro F1 | Recall (varoa) | Macro precision | Macro recall |
+|---|---|---|---|---|---|
+| MobileNetV3-Large | 0,9704 | **0,9643** | **0,9747** | 0,9529 | 0,9767 |
+| ResNet50 | **0,9716** | 0,9625 | 0,9620 | 0,9557 | 0,9698 |
+| EfficientNetB0 | 0,9111 | 0,8954 | 0,9241 | 0,8701 | 0,9278 |
+
+**6 klasa:**
+
+| Arhitektura | Accuracy | Macro F1 | Recall (varoa) | Macro precision | Macro recall |
+|---|---|---|---|---|---|
+| ResNet50 | 0,9072 | **0,8218** | 0,9494 | 0,7796 | 0,9032 |
+| MobileNetV3-Large | **0,9124** | 0,8031 | **0,9684** | 0,7753 | 0,8388 |
+| EfficientNetB0 | 0,8273 | 0,7020 | 0,9304 | 0,6442 | 0,8200 |
+
+Zapažanja:
+- Razlika između MobileNetV3 i ResNet50 na 3 klase je 0,0018 macro F1 — unutar
+  šuma jednog pokretanja, pa se ne može tvrditi da je jedan model tačniji.
+- **Recall na varoi je visok kod svih modela (0,92–0,97)**, što je dobro jer je
+  to najvažnija klasa greške za pčelara.
+- EfficientNetB0 je dosledno najslabiji, u obe šeme klasa. Verovatno bi mu
+  koristilo podešavanje hiperparametara, ali to bi pokvarilo poređenje pod
+  identičnim uslovima.
+- Klasa `missing_queen` ima 4 primera u testu: precision 0,40 / recall 0,50 kod
+  MobileNetV3, precision 0,44 / recall 1,00 kod ResNet50. Bez statističke težine.
+- Prelaz sa 6 na 3 klase donosi +0,16 macro F1 kod MobileNetV3 i +0,14 kod
+  ResNet50.
+
+> Dokaz: `runs/summary.csv`, `runs/*/metrics.json`, `runs/*/confusion_matrix.png`
+
+### C0b. Latencija zavisi od RUNTIME-a, ne samo od arhitekture — ključan nalaz
+
+Latencija je merena dva puta, u PyTorch-u i u onnxruntime-u:
+
+| Model | PyTorch (CPU) | ONNX Runtime (CPU) | Ubrzanje |
+|---|---|---|---|
+| MobileNetV3-Large | 40,9 ms | **2,52 ms** | 16,2× |
+| EfficientNetB0 | 85,4 ms | 4,43 ms | 19,3× |
+| ResNet50 | 12,7 ms | 11,91 ms | 1,1× |
+
+Arhitekture sa depthwise-separable konvolucijama u PyTorch-u na CPU-u koriste
+slabo optimizovane kernele; ONNX Runtime za njih ima znatno bolje. ResNet50
+koristi guste konvolucije koje se u oba runtime-a svode na optimizovane GEMM
+rutine, pa kod njega razlike skoro nema.
+
+**Zašto je to važno:** po PyTorch merenju ResNet50 izgleda 3× brži od
+MobileNetV3; u produkcijskom runtime-u je 4,7× **sporiji**. Merenje latencije u
+okviru za trening dalo bi obrnut redosled i pogrešnu odluku o modelu.
+
+> Dokaz: `models/latency_benchmark.csv`, reproducibilno sa `python -m src.benchmark_onnx`
 
 ### C1. Rang po ImageNet tačnosti se NE prenosi na ovaj zadatak
 
 | Arhitektura | ImageNet top-1 | Parametara | val macro F1 (3 kl.) | Trening |
 |---|---|---|---|---|
-| ResNet50 | 80,86% | 25,6M | 0,9673 | 12,7 min |
-| MobileNetV3-Large | 75,27% | 5,5M | **0,9668** | **3,3 min** |
-| EfficientNetB0 | 77,69% | 5,3M | 0,9012 | 5,7 min |
+| ResNet50 | 80,86% | 25,6M | 0,9673 (test 0,9625) | 12,7 min |
+| MobileNetV3-Large | 75,27% | 5,5M | **0,9668** (test **0,9643**) | **3,3 min** |
+| EfficientNetB0 | 77,69% | 5,3M | 0,9012 (test 0,8954) | 5,7 min |
 
 MobileNetV3 je praktično sustigao ResNet50 (razlika 0,0005) sa **4,6× manje
 parametara** i **3,8× kraćim treningom**, iako je na ImageNet-u slabiji za
@@ -216,8 +272,10 @@ Dobija se `data/raw/bee_imgs/bee_imgs/`, a CSV referiše samo imena fajlova.
 
 ## E. Otvorena pitanja / dalji koraci
 
-- [ ] Evaluacija na test skupu (776 slika) — confusion matrice, precision/recall po klasi
-- [ ] Izbor najboljeg modela po tri kriterijuma: macro F1, recall na varoi, latencija
-- [ ] ONNX izvoz izabranog modela
-- [ ] Sekcije izveštaja: rezultati, izbor modela, ograničenja
+- [x] Evaluacija na test skupu (776 slika) — confusion matrice, precision/recall po klasi
+- [x] Izbor najboljeg modela: **MobileNetV3-Large, 3 klase** (prvi po macro F1,
+      prvi po recall-u na varoi, 4,7× brži i 5,5× manji od ResNet50)
+- [x] ONNX izvoz: `models/bee_health.onnx` (17,1 MB, samostalan), verifikovan
+- [x] Sve 7 sekcija izveštaja + `report/izvestaj.docx`
 - [ ] Posle konsultacija: FastAPI servis, integracija u ASP.NET, Angular UI
+- [ ] Opciono: detekcija pčela na slici rama (rešava razliku domena)

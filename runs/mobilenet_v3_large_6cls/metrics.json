@@ -1,0 +1,108 @@
+{
+  "run": "mobilenet_v3_large_6cls",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "num_classes": 6,
+  "split": "stratified",
+  "test_size": 776,
+  "accuracy": 0.9124,
+  "macro_f1": 0.8031,
+  "weighted_f1": 0.9153,
+  "macro_precision": 0.7753,
+  "macro_recall": 0.8388,
+  "varroa_recall": 0.9684,
+  "varroa_support": 158,
+  "best_val_macro_f1": 0.8606,
+  "total_params": 4209718,
+  "cpu_latency_ms": 41.1,
+  "train_seconds": 199.4,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "healthy": {
+      "precision": 0.9936,
+      "recall": 0.925,
+      "f1": 0.9581,
+      "support": 507
+    },
+    "few_varroa_hive_beetles": {
+      "precision": 0.766,
+      "recall": 0.8276,
+      "f1": 0.7956,
+      "support": 87
+    },
+    "varroa_small_hive_beetles": {
+      "precision": 0.7531,
+      "recall": 0.8592,
+      "f1": 0.8026,
+      "support": 71
+    },
+    "ant_problems": {
+      "precision": 0.7931,
+      "recall": 1.0,
+      "f1": 0.8846,
+      "support": 69
+    },
+    "hive_being_robbed": {
+      "precision": 0.9459,
+      "recall": 0.9211,
+      "f1": 0.9333,
+      "support": 38
+    },
+    "missing_queen": {
+      "precision": 0.4,
+      "recall": 0.5,
+      "f1": 0.4444,
+      "support": 4
+    }
+  },
+  "confusion_matrix": [
+    [
+      469,
+      12,
+      10,
+      13,
+      1,
+      2
+    ],
+    [
+      1,
+      72,
+      10,
+      4,
+      0,
+      0
+    ],
+    [
+      0,
+      10,
+      61,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      69,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      1,
+      35,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      1,
+      2
+    ]
+  ]
+}
