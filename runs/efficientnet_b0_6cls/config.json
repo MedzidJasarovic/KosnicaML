@@ -1,0 +1,47 @@
+{
+  "run": "efficientnet_b0_6cls",
+  "arch": "efficientnet_b0",
+  "arch_display": "EfficientNetB0",
+  "num_classes": 6,
+  "classes": [
+    "healthy",
+    "few_varroa_hive_beetles",
+    "varroa_small_hive_beetles",
+    "ant_problems",
+    "hive_being_robbed",
+    "missing_queen"
+  ],
+  "split_prefix": "stratified",
+  "epochs_head": 15,
+  "epochs_finetune": 10,
+  "batch_size": 32,
+  "lr_head": 0.001,
+  "lr_finetune": 1e-05,
+  "seed": 42,
+  "device": "mps",
+  "total_params": 4015234,
+  "train_size": 3620,
+  "val_size": 776,
+  "best_val_macro_f1": 0.764,
+  "best_stage": "finetune",
+  "best_epoch": 7,
+  "train_seconds": 345.0,
+  "preprocessing": {
+    "resize_size": [
+      256
+    ],
+    "crop_size": [
+      224
+    ],
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  }
+}
