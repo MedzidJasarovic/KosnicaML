@@ -19,10 +19,12 @@ import onnxruntime as ort
 import torch
 from torch.utils.data import DataLoader
 
-from .dataset import CLASS_ORDER, BeeHealthDataset, load_split
+from .dataset import BeeHealthDataset, class_order, load_split
 from .evaluate import load_run
 from .models import build_model
 from .paths import MODELS, RUNS
+from .train import preprocessing_for
+from service.preprocessing import PAD_COLOR
 
 TOLERANCE = 1e-4
 OPSET = 18
@@ -31,9 +33,11 @@ OPSET = 18
 def export(run: str, name: str | None = None, verify_images: int = 20) -> int:
     config = load_run(run)
     arch, num_classes = config["arch"], config["num_classes"]
-    classes = CLASS_ORDER[num_classes]
+    dataset = config.get("dataset", "beeimage")
+    classes = class_order(dataset, num_classes)
+    mode = preprocessing_for(dataset)
 
-    model, _, eval_tf = build_model(arch, num_classes)
+    model, _, eval_tf = build_model(arch, num_classes, mode, config.get("img_size"))
     model.load_state_dict(torch.load(RUNS / run / "best.pt", map_location="cpu"))
     model.eval()
 
@@ -81,9 +85,13 @@ def export(run: str, name: str | None = None, verify_images: int = 20) -> int:
         "input_name": "input",
         "output_name": "logits",
         "output_activation": "softmax",
+        "dataset": dataset,
         "preprocessing": {
-            "resize_shorter_side": int(resize),
-            "center_crop": int(crop),
+            "mode": mode,
+            # letterbox: duža strana -> size, dopuna do kvadrata bojom pad_color
+            # center_crop: kraća strana -> resize_shorter_side, pa isecanje center_crop
+            **({"size": int(crop), "pad_color": list(PAD_COLOR)} if mode == "letterbox"
+               else {"resize_shorter_side": int(resize), "center_crop": int(crop)}),
             "rescale": "pixel / 255.0",
             "mean": [float(v) for v in eval_tf.mean],
             "std": [float(v) for v in eval_tf.std],
@@ -103,13 +111,13 @@ def _test_metrics(run: str) -> dict | None:
     if not path.is_file():
         return None
     m = json.loads(path.read_text())
-    return {k: m[k] for k in ("accuracy", "macro_f1", "varroa_recall") if k in m}
+    return {k: m[k] for k in ("accuracy", "macro_f1", "varroa_recall", "roc_auc") if k in m}
 
 
 def verify(onnx_path, model, eval_tf, num_classes: int, config: dict, count: int) -> int:
     """Uporedjuje ONNX i PyTorch verovatnoce na stvarnim test slikama."""
     prefix = "loc_" if config["split_prefix"] == "loc_" else ""
-    df = load_split(f"{prefix}test", num_classes).head(count)
+    df = load_split(f"{prefix}test", num_classes, config.get("dataset", "beeimage")).head(count)
     loader = DataLoader(BeeHealthDataset(df, eval_tf), batch_size=count, shuffle=False)
     images, _ = next(iter(loader))
 

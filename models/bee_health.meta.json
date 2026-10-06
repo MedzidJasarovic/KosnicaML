@@ -1,20 +1,25 @@
 {
   "model_version": "bee_health",
-  "source_run": "mobilenet_v3_large_3cls",
-  "arch": "mobilenet_v3_large",
-  "arch_display": "MobileNetV3-Large",
-  "num_classes": 3,
+  "source_run": "varroa_resnet50",
+  "arch": "resnet50",
+  "arch_display": "ResNet50",
+  "num_classes": 2,
   "classes": [
     "zdrava",
-    "varoa_grinje",
-    "drugi_problem"
+    "varoa"
   ],
   "input_name": "input",
   "output_name": "logits",
   "output_activation": "softmax",
+  "dataset": "varroa",
   "preprocessing": {
-    "resize_shorter_side": 232,
-    "center_crop": 224,
+    "mode": "letterbox",
+    "size": 224,
+    "pad_color": [
+      124,
+      116,
+      104
+    ],
     "rescale": "pixel / 255.0",
     "mean": [
       0.485,
@@ -30,8 +35,9 @@
     "layout": "NCHW"
   },
   "test_metrics": {
-    "accuracy": 0.9704,
-    "macro_f1": 0.9643,
-    "varroa_recall": 0.9747
+    "accuracy": 0.931,
+    "macro_f1": 0.9134,
+    "varroa_recall": 0.8684,
+    "roc_auc": 0.9753
   }
 }

@@ -1,0 +1,9 @@
+{
+  "model": "ResNet50",
+  "source_run": "varroa_resnet50",
+  "test_slika": 3408,
+  "najveca_razlika_verovatnoce": 5.1e-05,
+  "razlicitih_predikcija": 0,
+  "accuracy_servisa": 0.931,
+  "ok": true
+}

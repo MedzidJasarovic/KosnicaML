@@ -235,6 +235,46 @@ eksterni GPU servis.
 
 ---
 
+### C-X. Model ne prepoznaje varou na pčeli — uči snimak (06.10.2026)
+
+**Povod:** pri ručnom testu u aplikaciji, makro fotografija pčele sa dve jasno
+vidljive varoe dobila je `zdrava` sa 99,97%.
+
+**Test prečice** (`python -m src.shortcut_test`): modelu se daju samo uglovi
+test slika (25% × 25%), gde je pozadina snimka, a pčela van kadra.
+
+| Prava klasa | Slika | Cela slika tačno | Samo ugao tačno |
+|---|---|---|---|
+| zdrava | 507 | 96,4% | 84,0% |
+| varoa_grinje | 158 | 97,5% | 73,9% |
+| drugi_problem | 111 | 99,1% | 10,8% |
+
+Slučajno pogađanje je 33%. Iz komadića pozadine bez pčele model 74% puta
+„pogađa" varou. To potvrđuje A5: oznaka je svojstvo snimka (sve slike varoe su
+iz dva snimka u Athens, GA, sa tirkiznom podlogom), a varoa na većini isečaka
+nije ni vidljiva. Visoka tačnost na test skupu meri prepoznavanje snimka, ne
+bolesti. Model nije upotrebljiv za stvarnu dijagnozu.
+
+Ravne slike jedne boje uvek daju `zdrava`, pa prečica nije samo boja, nego
+tekstura i osvetljenje pozadine.
+
+**Posledica:** BeeImage nije pogodan za ovaj zadatak. Potreban je dataset gde je
+oznaka varoe dodeljena po pčeli, uz istu pozadinu za sve klase.
+
+### C-Y. VarroaDataset: fine-tuning samo poslednjeg bloka ne uči grinju (06.10.2026)
+
+Protokol preuzet iz BeeImage eksperimenta (glava 15 epoha, pa fine-tuning
+poslednjeg bloka sa lr 1e-5) na VarroaDataset-u daje val macro F1 0,665 i
+train accuracy svega 0,74 — model ne uči zadatak (underfitting).
+
+Kada se u fazi 2 odmrzne CELA mreža (lr 1e-4), val macro F1 posle 5 epoha je
+0,926. Zaključak: zamrznuti ImageNet slojevi ne izdvajaju sitno obeležje
+(grinja ~26 px na 224 ulazu). Na BeeImage-u to nije bilo vidljivo jer je model
+učio pozadinu, za šta su ImageNet obeležja dovoljna.
+
+Protokol je biran samo na val skupu, na MobileNetV3; isti se primenjuje na sve
+tri arhitekture. Varijante su u `runs/tuning/`.
+
 ## D. Tehnička zapažanja (za sekciju o implementaciji)
 
 ### D1. ONNX izvoz podrazumevano razdvaja težine u zaseban fajl

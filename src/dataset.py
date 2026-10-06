@@ -99,8 +99,27 @@ def load_metadata(num_classes: int = 6) -> pd.DataFrame:
     return df
 
 
-def load_split(split: str, num_classes: int = 6) -> pd.DataFrame:
-    """Cita jedan od komitovanih splitova (train/val/test) i mapira klase."""
+DATASETS = ["beeimage", "varroa"]
+
+
+def class_order(dataset: str, num_classes: int) -> list[str]:
+    """Red klasa za dati dataset. VarroaDataset uvek ima 2 klase."""
+    if dataset == "varroa":
+        from .varroa_dataset import CLASSES
+        return CLASSES
+    return CLASS_ORDER[num_classes]
+
+
+def varroa_classes(dataset: str, num_classes: int) -> list[str]:
+    return ["varoa"] if dataset == "varroa" else VARROA_CLASSES[num_classes]
+
+
+def load_split(split: str, num_classes: int = 6, dataset: str = "beeimage") -> pd.DataFrame:
+    """Cita jedan od splitova (train/val/test) i mapira klase."""
+    if dataset == "varroa":
+        from .varroa_dataset import load_varroa_split
+        return load_varroa_split(split)
+
     path = DATA_SPLITS / f"{split}.csv"
     if not path.is_file():
         raise FileNotFoundError(

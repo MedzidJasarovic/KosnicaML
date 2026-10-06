@@ -1,7 +1,10 @@
-arhitektura,klase,podela,accuracy,macro_F1,weighted_F1,macro_precision,macro_recall,recall_varoa,parametara_M,latencija_ms,trening_min,run
-MobileNetV3-Large,3,stratified,0.9704,0.9643,0.9706,0.9529,0.9767,0.9747,4.2,40.9,3.3,mobilenet_v3_large_3cls
-ResNet50,3,stratified,0.9716,0.9625,0.9718,0.9557,0.9698,0.962,23.5,12.7,12.7,resnet50_3cls
-EfficientNetB0,3,stratified,0.9111,0.8954,0.9124,0.8701,0.9278,0.9241,4.0,85.4,5.7,efficientnet_b0_3cls
-ResNet50,6,stratified,0.9072,0.8218,0.9103,0.7796,0.9032,0.9494,23.5,12.4,11.8,resnet50_6cls
-MobileNetV3-Large,6,stratified,0.9124,0.8031,0.9153,0.7753,0.8388,0.9684,4.2,41.1,3.3,mobilenet_v3_large_6cls
-EfficientNetB0,6,stratified,0.8273,0.702,0.8334,0.6442,0.82,0.9304,4.0,84.2,5.8,efficientnet_b0_6cls
+dataset,arhitektura,klase,podela,accuracy,macro_F1,weighted_F1,macro_precision,macro_recall,recall_varoa,parametara_M,latencija_ms,trening_min,run
+beeimage,MobileNetV3-Large,3,stratified,0.9704,0.9643,0.9706,0.9529,0.9767,0.9747,4.2,40.9,3.3,mobilenet_v3_large_3cls
+beeimage,ResNet50,3,stratified,0.9716,0.9625,0.9718,0.9557,0.9698,0.962,23.5,12.7,12.7,resnet50_3cls
+beeimage,EfficientNetB0,3,stratified,0.9111,0.8954,0.9124,0.8701,0.9278,0.9241,4.0,85.4,5.7,efficientnet_b0_3cls
+beeimage,ResNet50,6,stratified,0.9072,0.8218,0.9103,0.7796,0.9032,0.9494,23.5,12.4,11.8,resnet50_6cls
+beeimage,MobileNetV3-Large,6,stratified,0.9124,0.8031,0.9153,0.7753,0.8388,0.9684,4.2,41.1,3.3,mobilenet_v3_large_6cls
+beeimage,EfficientNetB0,6,stratified,0.8273,0.702,0.8334,0.6442,0.82,0.9304,4.0,84.2,5.8,efficientnet_b0_6cls
+varroa,ResNet50,2,po_videu,0.931,0.9134,0.9309,0.9152,0.9117,0.8684,23.5,13.6,40.0,varroa_resnet50
+varroa,EfficientNetB0,2,po_videu,0.9217,0.9011,0.9212,0.9054,0.897,0.8418,4.0,84.5,24.8,varroa_efficientnet_b0
+varroa,MobileNetV3-Large,2,po_videu,0.9199,0.9011,0.9204,0.8964,0.9063,0.8758,4.2,40.8,20.4,varroa_mobilenet_v3_large

@@ -1,0 +1,43 @@
+{
+  "model_version": "varroa_mobilenet_v3_large",
+  "source_run": "varroa_mobilenet_v3_large",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "num_classes": 2,
+  "classes": [
+    "zdrava",
+    "varoa"
+  ],
+  "input_name": "input",
+  "output_name": "logits",
+  "output_activation": "softmax",
+  "dataset": "varroa",
+  "preprocessing": {
+    "mode": "letterbox",
+    "size": 224,
+    "pad_color": [
+      124,
+      116,
+      104
+    ],
+    "rescale": "pixel / 255.0",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "channel_order": "RGB",
+    "layout": "NCHW"
+  },
+  "test_metrics": {
+    "accuracy": 0.9199,
+    "macro_f1": 0.9011,
+    "varroa_recall": 0.8758,
+    "roc_auc": 0.9662
+  }
+}

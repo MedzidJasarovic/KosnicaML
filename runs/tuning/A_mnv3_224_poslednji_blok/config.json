@@ -1,0 +1,45 @@
+{
+  "run": "varroa_mobilenet_v3_large",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "dataset": "varroa",
+  "num_classes": 2,
+  "classes": [
+    "zdrava",
+    "varoa"
+  ],
+  "split_prefix": "po_videu",
+  "epochs_head": 15,
+  "epochs_finetune": 10,
+  "batch_size": 32,
+  "lr_head": 0.001,
+  "lr_finetune": 1e-05,
+  "seed": 42,
+  "device": "mps",
+  "total_params": 4204594,
+  "train_size": 8225,
+  "val_size": 1876,
+  "best_val_macro_f1": 0.6651,
+  "best_stage": "head",
+  "best_epoch": 8,
+  "train_seconds": 471.0,
+  "preprocessing": {
+    "mode": "letterbox",
+    "resize_size": [
+      224
+    ],
+    "crop_size": [
+      224
+    ],
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  }
+}

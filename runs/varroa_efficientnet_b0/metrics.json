@@ -1,0 +1,62 @@
+{
+  "run": "varroa_efficientnet_b0",
+  "arch": "efficientnet_b0",
+  "arch_display": "EfficientNetB0",
+  "dataset": "varroa",
+  "num_classes": 2,
+  "split": "po_videu",
+  "test_size": 3408,
+  "accuracy": 0.9217,
+  "macro_f1": 0.9011,
+  "weighted_f1": 0.9212,
+  "macro_precision": 0.9054,
+  "macro_recall": 0.897,
+  "varroa_recall": 0.8418,
+  "varroa_support": 942,
+  "best_val_macro_f1": 0.9377,
+  "total_params": 4010110,
+  "cpu_latency_ms": 84.5,
+  "train_seconds": 1485.4,
+  "classes_absent_from_test": [],
+  "per_class": {
+    "zdrava": {
+      "precision": 0.9403,
+      "recall": 0.9521,
+      "f1": 0.9462,
+      "support": 2466
+    },
+    "varoa": {
+      "precision": 0.8705,
+      "recall": 0.8418,
+      "f1": 0.8559,
+      "support": 942
+    }
+  },
+  "confusion_matrix": [
+    [
+      2348,
+      118
+    ],
+    [
+      149,
+      793
+    ]
+  ],
+  "roc_auc": 0.9644,
+  "per_video": {
+    "2017-09-01_10-54-26": {
+      "slika": 1278,
+      "udeo_varoe": 0.483,
+      "accuracy": 0.8842
+    },
+    "2017-10-17_1-39-36": {
+      "slika": 2130,
+      "udeo_varoe": 0.153,
+      "accuracy": 0.9441
+    }
+  },
+  "varroa_recall_by_raw_label": {
+    "1": 0.9239,
+    "3": 0.5485
+  }
+}

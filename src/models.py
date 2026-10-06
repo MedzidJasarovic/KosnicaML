@@ -18,6 +18,8 @@ import torch.nn as nn
 import torchvision.models as tvm
 from torchvision.transforms import v2
 
+from service.preprocessing import PAD_COLOR, letterbox
+
 # ime -> (konstruktor, pretrenirani weights, naziv za izvestaj)
 SPECS = {
     "mobilenet_v3_large": (
@@ -87,13 +89,87 @@ def unfreeze_last_block(model: nn.Module, arch: str) -> None:
             param.requires_grad = True
 
 
-def build_model(arch: str, num_classes: int) -> tuple[nn.Module, object, object]:
+class Letterbox:
+    """PIL -> PIL letterbox; klasa (ne lambda) da bi se mogla poslati DataLoader radnicima."""
+
+    def __init__(self, size: int):
+        self.size = size
+
+    def __call__(self, image):
+        return letterbox(image, self.size)
+
+
+class LetterboxEval:
+    """
+    Eval transform za VarroaDataset: letterbox na kvadrat, pa normalizacija.
+    Ima iste atribute kao torchvision `weights.transforms()` (crop_size,
+    resize_size, mean, std), pa ga ostatak koda koristi na isti način.
+    Sama priprema slike je u service/preprocessing.py — ista funkcija radi i u servisu.
+    """
+
+    def __init__(self, size: int, mean, std):
+        self.crop_size = [size]
+        self.resize_size = [size]
+        self.mean = list(mean)
+        self.std = list(std)
+        self._to_tensor = v2.Compose([
+            v2.ToImage(),
+            v2.ToDtype(torch.float32, scale=True),
+            v2.Normalize(mean=self.mean, std=self.std),
+        ])
+
+    def __call__(self, image):
+        return self._to_tensor(letterbox(image, self.crop_size[0]))
+
+
+def _letterbox_transforms(weights, size: int | None = None) -> tuple[object, object]:
+    """
+    (train_tf, eval_tf) za VarroaDataset.
+
+    Slike su uspravne (160x280). Center crop iz weights.transforms() bi odsekao
+    ~45% visine — glavu i zadak, gde je grinja često. Zato se cela slika smanji
+    i dopuni do kvadrata. Augmentacija je jača nego za BeeImage, jer model treba
+    da radi i na fotografijama korisnika: rotacija u svim smerovima (pčela je
+    snimljena odozgo, pa nema "gore"), promena razmere, boje, osvetljenja i
+    zamućenje. Nijansa (hue) se menja malo, jer je crvenkasta boja grinje signal.
+    """
+    ref = weights.transforms()
+    crop = size or (ref.crop_size[0] if isinstance(ref.crop_size, (list, tuple)) else ref.crop_size)
+    eval_tf = LetterboxEval(crop, ref.mean, ref.std)
+
+    train_tf = v2.Compose([
+        Letterbox(crop),
+        v2.RandomHorizontalFlip(p=0.5),
+        v2.RandomVerticalFlip(p=0.5),
+        v2.RandomAffine(degrees=180, translate=(0.05, 0.05), scale=(0.8, 1.1), fill=list(PAD_COLOR)),
+        v2.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.02),
+        v2.RandomApply([v2.GaussianBlur(kernel_size=5, sigma=(0.1, 1.5))], p=0.2),
+        v2.ToImage(),
+        v2.ToDtype(torch.float32, scale=True),
+        v2.Normalize(mean=ref.mean, std=ref.std),
+    ])
+    return train_tf, eval_tf
+
+
+def unfreeze_all(model: nn.Module) -> None:
+    """
+    Odmrzava celu mrežu (faza 2 — potpun fine-tuning). Potrebno kada je obeležje
+    koje se traži sitno i van ImageNet domena (grinja od ~25 px): zamrznuti
+    niži slojevi ga ne izdvajaju dovoljno dobro.
+    """
+    for param in model.parameters():
+        param.requires_grad = True
+
+
+def build_model(arch: str, num_classes: int, preprocessing: str = "center_crop",
+                img_size: int | None = None) -> tuple[nn.Module, object, object]:
     """
     Vraca (model, train_transform, eval_transform).
 
-    eval_transform je zvanicni `weights.transforms()`.
-    train_transform je isti pipeline + augmentacija (flip/rotacija/jitter),
-    identicna za sve tri arhitekture.
+    preprocessing="center_crop" (BeeImage): eval_transform je zvanicni
+    `weights.transforms()`, train_transform isti pipeline + augmentacija.
+    preprocessing="letterbox" (VarroaDataset): vidi _letterbox_transforms.
+    U oba slucaja su transformacije identicne za sve tri arhitekture.
     """
     if arch not in SPECS:
         raise ValueError(f"Nepoznata arhitektura '{arch}'. Dostupne: {ARCHITECTURES}")
@@ -101,6 +177,10 @@ def build_model(arch: str, num_classes: int) -> tuple[nn.Module, object, object]
     constructor, weights, _ = SPECS[arch]
     model = constructor(weights=weights)
     model = _replace_head(model, arch, num_classes)
+
+    if preprocessing == "letterbox":
+        train_tf, eval_tf = _letterbox_transforms(weights, img_size)
+        return model, train_tf, eval_tf
 
     eval_tf = weights.transforms()
     crop = eval_tf.crop_size[0] if isinstance(eval_tf.crop_size, (list, tuple)) else eval_tf.crop_size

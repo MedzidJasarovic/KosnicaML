@@ -1,108 +1,100 @@
 # Stanje rada — gde smo stali
 
-Poslednje ažuriranje: **03.10.2026.**
+Poslednje ažuriranje: **07.10.2026.**
 
 Ovaj dokument služi da se rad nastavi tačno odakle je prekinut.
-Detaljni nalazi su u [`report/NALAZI.md`](report/NALAZI.md), gotov izveštaj u
-[`report/izvestaj.docx`](report/izvestaj.docx).
+
+- **Konačni izveštaj za profesoricu:** [`report/izvestaj_final.pdf`](report/izvestaj_final.pdf)
+  i [`report/izvestaj_final.docx`](report/izvestaj_final.docx) (generiše ih `python -m src.make_final_report`)
+- Radni dnevnik nalaza: [`report/NALAZI.md`](report/NALAZI.md)
+- Notebook-ovi: `notebooks/01_analiza_dataseta.ipynb`, `02_trening_i_poredjenje.ipynb`, `03_provera_modela.ipynb`
 
 ---
 
-## Kontekst u jednoj rečenici
+## Kontekst
 
-Diplomski rad: profesorica je mejlom suzila temu na **klasifikaciju zdravstvenog
-stanja pčela sa fotografije** (transfer learning, poređenje tri arhitekture,
-integracija najboljeg modela u postojeći IS „Košnica"). Moduli A (predviđanje
-prinosa) i C (RAG asistent) iz `../plan.txt` su **izvan obima**.
+Diplomski rad: profesorica je suzila temu na **prepoznavanje zdravstvenog stanja
+pčela sa fotografije** (transfer learning, poređenje MobileNetV3/ResNet50/EfficientNetB0,
+integracija najboljeg modela u IS „Košnica“). Moduli A (prinos) i C (RAG) iz
+`../plan.txt` su **izvan obima**. Konsultacije 06.10.2026: profesorica je saglasna
+da se najbolji model integriše i testira na slikama.
 
-## Šta je ZAVRŠENO
+## Tok rada (ukratko)
 
-| Faza | Status | Rezultat |
-|---|---|---|
-| 0 — Setup | ✅ | venv sa Python 3.12.15, PyTorch 2.14.1, MPS radi |
-| 1 — Dataset | ✅ | BeeImage, 5.172 slike, analiziran i podeljen 70/15/15 |
-| 2 — Trening | ✅ | 6 eksperimenata (3 arhitekture × 6 i 3 klase), 42,6 min |
-| 3 — Evaluacija | ✅ | test skup 776 slika, confusion matrice, metrike po klasi |
-| 4 — Izbor + ONNX | ✅ | `models/bee_health.onnx`, 17,1 MB, verifikovan |
-| 5 — Izveštaj | ✅ | `report/izvestaj.docx`, 7 poglavlja, 14 grafikona |
-| 6 — FastAPI servis | ⬜ | **sledeće** |
-| 7 — ASP.NET integracija | ⬜ | |
-| 8 — Angular UI | ⬜ | |
+1. **Prvi eksperiment — BeeImage.** 97% tačnosti, ali model je učio pozadinu
+   snimka, ne bolest: makro fotografija pčele sa 2 grinje → „zdrava“ 99,97%.
+   Dokaz: `python -m src.shortcut_test` (iz samih uglova slike 74% „varoa“).
+   Oznake u BeeImage su po snimku, ne po pčeli. NALAZI.md C-X. Modeli arhivirani
+   u `models/beeimage/`.
+2. **Glavni eksperiment — VarroaDataset** (TU Wien, Zenodo 10.5281/zenodo.4085044):
+   13.509 slika, oznaka po pčeli, ručno označene grinje, podela po snimku.
+   Klase: `zdrava`, `varoa`. BeeDataset (Hickert) je nezavisan test skup.
+3. **Protokol** biran samo na val skupu (`runs/tuning/`, NALAZI C-Y): fine-tuning
+   samo poslednjeg bloka ne uči grinju (val F1 0,665); fine-tuning CELE mreže radi
+   (0,934). Izabrano: 3 epohe glava + 15 epoha cela mreža, lr 1e-4, letterbox 224.
 
-**Prekretnica:** faze 6–8 su planirane tek nakon konsultacija kod profesorice,
-kad potvrdi izbor klasa i modela.
+## Rezultati (test skup, 3.408 slika iz 2 snimka koje model nije video)
 
-## Izabrani model
+| Model | Accuracy | F1 macro | Recall varoa | BeeDataset AUC | Makro foto | ONNX ms |
+|---|---|---|---|---|---|---|
+| MobileNetV3-Large | 0,920 | 0,901 | 0,876 | **0,949** | ✗ | 2,6 |
+| **ResNet50 — izabran** | **0,931** | **0,913** | 0,868 | 0,869 | ✓ | 11,9 |
+| EfficientNetB0 | 0,922 | 0,901 | 0,842 | 0,928 | ✓ | 4,5 |
 
-**MobileNetV3-Large, 3 klase** — `models/bee_health.onnx` + `bee_health.meta.json`
+Sva tri modela gledaju grinju: kad se grinja prekrije, „varoa“ ostaje kod 3–4%
+pčela; kad se prekrije drugo mesto, kod 96–98% (`src/model_checks.py`).
 
-| Metrika (test, 776 slika) | Vrednost |
-|---|---|
-| Accuracy | 0,9704 |
-| Macro F1 | 0,9643 |
-| Recall na varoi | 0,9747 |
-| Latencija (ONNX Runtime, CPU) | 2,52 ms |
-| Veličina fajla | 17,1 MB |
+Slabost: na drugačijem snimanju (BeeDataset) modeli su previše oprezni —
+recall varoe 0,20–0,48 na pragu 0,5, iako je AUC visok. Obrazloženje izbora i
+rezerve: poglavlje „Izbor modela“ u izveštaju.
 
-Klase, tim redosledom: `zdrava`, `varoa_grinje`, `drugi_problem`.
+## U produkciji
 
-Izabran jer je prvi po macro F1 i po recall-u na varoi, a 4,7× brži i 5,5× manji
-od ResNet50 (koji je po tačnosti bolji za 0,0012 — jedna slika od 776).
+`models/bee_health.onnx` = **ResNet50 (VarroaDataset)**, proveren na celom test
+skupu kroz servis (`models/verification.json`: 0 različitih predikcija).
+Alternativni modeli: `models/varroa_*.onnx`. Zamena: `python -m src.export_onnx
+--run varroa_<arh> --name bee_health` i restart servisa.
 
-## Odluke donete u dogovoru sa Medžidom
+Integracija (urađeno 06.10.):
+- `service/` — FastAPI (`/health`, `/predict`), priprema slike u `service/preprocessing.py`
+  (ista funkcija u treningu i servisu)
+- `KosnicaApi` — `BeeHealthChecksController` (`/api/hives/{id}/health-checks`),
+  tabela `BeeHealthChecks`, `LocalStorageService` (zamenio Mock; slike u `wwwroot/uploads/`)
+- `KosnicaUI` — tab „Zdravlje pčela“ u modalu košnice
 
-1. **PyTorch + torchvision**, ne TensorFlow/Keras. Obrazloženje u
-   `report/03_pytorch_vs_keras.md`.
-2. **Dva eksperimenta**: svih 6 originalnih klasa i grupisano u 3.
-3. **Trening lokalno** na Apple M5 (MPS), ne u Colab-u.
-4. **FastAPI + ONNX Runtime** za serviranje, ne ONNX direktno u .NET-u.
-5. **Izveštaj u .docx** formatu.
-6. **Podela disjunktna po lokaciji je izbačena** — Medžid je odlučio da nam ne
-   treba. Kod za nju je uklonjen, degenerisani `loc_*.csv` fajlovi obrisani.
-   Nalaz o konfundiranju lokacije i klase ostaje naveden u poglavlju o
-   ograničenjima, bez posebnog akcenta.
-
-## Kako nastaviti
+## Pokretanje
 
 ```bash
-cd ~/Kosnica_IS/KosnicaML
-source .venv/bin/activate      # ili koristi ./.venv/bin/python direktno
+# ML servis
+cd ~/Kosnica_IS/KosnicaML && ./.venv/bin/uvicorn service.main:app --port 8000
+# backend
+cd ~/Kosnica_IS/KosnicaApi && dotnet watch
+# frontend
+cd ~/Kosnica_IS/KosnicaUI && npm start
 ```
 
-Dataset je na disku (`data/raw/`, 62 MB) i **ne treba ga ponovo preuzimati**.
-Kaggle token je obrisan i više nije potreban.
+Probne slike iz test skupa: `data/probne_slike/` (prava klasa u imenu fajla).
 
-Ponovno pokretanje bilo čega:
+## Ponavljanje eksperimenta
 
 ```bash
-./run_all.sh                                    # svih 6 treninga iznova (~43 min)
-./.venv/bin/python -m src.evaluate --all        # evaluacija (~4 min)
-./.venv/bin/python -m src.benchmark_onnx        # latencija u ONNX-u
-./report/build_docx.sh                          # regeneriši izveštaj
-./tests/smoke_test.sh                           # provera celog lanca (sintetički podaci)
+./run_varroa.sh                       # ceo eksperiment (~1,5 h na M5); preskače već istrenirane
+python -m src.field_test              # posle dodavanja fotografija u data/field_photos/{zdrava,varoa}/
+python -m src.make_final_report       # izveštaj (md, docx, pdf)
+./.venv/bin/python notebooks/build_notebooks.py && ./.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb
 ```
 
-## Sledeći korak — faza 6
+Dug trening pokretati sa `nohup ... &` — alat za pozadinske komande u Claude Code
+prekida posle 2 sata (desilo se 06.10. usred ResNet50).
 
-FastAPI servis u `KosnicaML/service/`:
-- učita `models/bee_health.onnx` preko `onnxruntime` pri pokretanju
-- `POST /predict` — prima sliku, preprocesira po `bee_health.meta.json`,
-  vraća `{label, confidence, all_probs}`
-- `GET /health`
-- Dockerfile
+## Otvoreno / sledeće
 
-Predložena arhitektura cele integracije je u `report/06_integracija.md`.
-
-## OTVORENO PITANJE za fazu 8
-
-U sistemu „Košnica" **čuvanje fajlova ne radi**:
-- `KosnicaApi/Services/MockStorageService.cs` vraća izmišljen Cloudinary URL
-  posle `Task.Delay(500)` — nijedan bajt se ne čuva
-- `KosnicaApi/Program.cs` ne poziva `app.UseStaticFiles()`
-- u `KosnicaUI` ne postoji **nikakav** upload UI
-
-(Napomena: `../implementation_roadmap.md` tvrdi suprotno — da foto prilozi već
-postoje u hive-detail modalu. To je netačno.)
-
-**Nedogovoreno:** da li implementaciju skladištenja radimo kao deo faze 8 ili
-kao zaseban zadatak pre nje. To je posao nezavisan od modela.
+1. **Terenske fotografije** — Medžid planira da skupi fotografije pojedinačnih pčela
+   sa različitim pozadinama u `data/field_photos/{zdrava,varoa}/`. Terenski test sada
+   ima samo 2 fotografije.
+2. Ako terenski test pokaže pad: augmentacija zamenom pozadine ili dodavanje
+   BeeDataset-a u trening (Medžid je rekao da je zamena pozadine previše
+   komplikovana — predložiti ponovo tek ako rezultati to traže).
+3. Snimci ekrana aplikacije za izveštaj → `report/figures/screenshot_*.png`
+   (builder ih sam ubacuje u poglavlje o integraciji).
+4. Ništa od rada od 06.10. nije commit-ovano (KosnicaML, KosnicaApi, KosnicaUI).

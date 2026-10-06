@@ -1,0 +1,37 @@
+{
+  "model_version": "bee_health",
+  "source_run": "mobilenet_v3_large_3cls",
+  "arch": "mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "num_classes": 3,
+  "classes": [
+    "zdrava",
+    "varoa_grinje",
+    "drugi_problem"
+  ],
+  "input_name": "input",
+  "output_name": "logits",
+  "output_activation": "softmax",
+  "preprocessing": {
+    "resize_shorter_side": 232,
+    "center_crop": 224,
+    "rescale": "pixel / 255.0",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "channel_order": "RGB",
+    "layout": "NCHW"
+  },
+  "test_metrics": {
+    "accuracy": 0.9704,
+    "macro_f1": 0.9643,
+    "varroa_recall": 0.9747
+  }
+}

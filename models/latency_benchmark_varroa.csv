@@ -1,0 +1,4 @@
+model,klase,onnx_batch1_ms,onnx_median_ms,onnx_p95_ms,onnx_batch8_ms_po_slici,pytorch_batch1_ms,ubrzanje_onnx,fajl_MB,run
+MobileNetV3-Large,2,2.59,2.44,3.2,2.3,40.8,15.8,17.1,varroa_mobilenet_v3_large
+EfficientNetB0,2,4.5,4.41,4.98,4.49,84.5,18.8,16.6,varroa_efficientnet_b0
+ResNet50,2,11.94,11.76,14.08,18.14,13.6,1.1,94.2,varroa_resnet50

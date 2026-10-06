@@ -1,0 +1,21 @@
+{
+  "run": "varroa_mobilenet_v3_large",
+  "arch_display": "MobileNetV3-Large",
+  "masking": {
+    "zarazenih_test_slika": 942,
+    "prepoznato_kao_varoa_original": 0.8758,
+    "ostalo_varoa_kad_se_grinja_prekrije": 0.0352,
+    "ostalo_varoa_kad_se_prekrije_drugo_mesto": 0.977,
+    "prosecna_p_varoa_original": 0.9379,
+    "prosecna_p_varoa_grinja_prekrivena": 0.0738,
+    "prosecna_p_varoa_drugo_mesto_prekriveno": 0.9225
+  },
+  "background": {
+    "udeo_varoa_uglovi_zdravih": 0.0278,
+    "udeo_varoa_uglovi_zarazenih": 0.0361
+  },
+  "gradcam_pointing": {
+    "uzoraka": 200,
+    "pogodak_u_grinju": 0.87
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "run": "varroa_resnet50",
+  "arch_display": "ResNet50",
+  "masking": {
+    "zarazenih_test_slika": 942,
+    "prepoznato_kao_varoa_original": 0.8684,
+    "ostalo_varoa_kad_se_grinja_prekrije": 0.0391,
+    "ostalo_varoa_kad_se_prekrije_drugo_mesto": 0.9817,
+    "prosecna_p_varoa_original": 0.9253,
+    "prosecna_p_varoa_grinja_prekrivena": 0.0642,
+    "prosecna_p_varoa_drugo_mesto_prekriveno": 0.917
+  },
+  "background": {
+    "udeo_varoa_uglovi_zdravih": 0.0072,
+    "udeo_varoa_uglovi_zarazenih": 0.0127
+  },
+  "gradcam_pointing": {
+    "uzoraka": 200,
+    "pogodak_u_grinju": 0.465
+  }
+}

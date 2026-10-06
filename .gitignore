@@ -11,11 +11,15 @@ __pycache__/
 # Rezultati treninga - checkpointi su preveliki za git,
 # ali metrike/grafikoni/history se komituju (vidi !izuzetke ispod)
 runs/**/*.pt
-models/*.onnx
-models/*.onnx.data
+models/**/*.onnx
+models/**/*.onnx.data
 
 # macOS
 .DS_Store
 
 # logovi treninga
 logs/
+
+# VarroaDataset (Zenodo 10.5281/zenodo.4085044), preuzima se
+data/varroa/
+data/beedataset/

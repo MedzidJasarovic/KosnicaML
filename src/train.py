@@ -30,7 +30,7 @@ from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from .dataset import CLASS_ORDER, BeeHealthDataset, load_split
+from .dataset import DATASETS, BeeHealthDataset, class_order, load_split
 from .models import (
     ARCHITECTURES,
     build_model,
@@ -39,6 +39,7 @@ from .models import (
     freeze_backbone,
     head_parameters,
     pick_device,
+    unfreeze_all,
     unfreeze_last_block,
 )
 from .paths import RUNS
@@ -56,9 +57,15 @@ def set_seed(seed: int) -> None:
         torch.cuda.manual_seed_all(seed)
 
 
-def run_name(arch: str, num_classes: int, split_prefix: str) -> str:
+def run_name(arch: str, num_classes: int, split_prefix: str, dataset: str = "beeimage") -> str:
+    if dataset == "varroa":
+        return f"varroa_{arch}"
     suffix = "_loc" if split_prefix else ""
     return f"{arch}_{num_classes}cls{suffix}"
+
+
+def preprocessing_for(dataset: str) -> str:
+    return "letterbox" if dataset == "varroa" else "center_crop"
 
 
 def class_weights(targets: list[int], num_classes: int, device) -> torch.Tensor:
@@ -168,9 +175,11 @@ def train_epochs(
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description="Transfer learning nad BeeImage datasetom")
+    parser = argparse.ArgumentParser(description="Transfer learning: BeeImage ili VarroaDataset")
     parser.add_argument("--arch", required=True, choices=ARCHITECTURES)
-    parser.add_argument("--classes", type=int, default=6, choices=[3, 6])
+    parser.add_argument("--dataset", default="beeimage", choices=DATASETS)
+    parser.add_argument("--classes", type=int, default=6, choices=[2, 3, 6],
+                        help="BeeImage: 6 ili 3; VarroaDataset ima uvek 2")
     parser.add_argument("--split-prefix", default="", choices=["", "loc_"],
                         help="'loc_' koristi podelu disjunktnu po lokaciji")
     parser.add_argument("--epochs-head", type=int, default=15)
@@ -181,25 +190,32 @@ def main(argv=None) -> int:
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--limit", type=int, default=0, help="smoke test: koristi samo N slika")
     parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--finetune-scope", default="last_block", choices=["last_block", "all"],
+                        help="faza 2: odmrzava se poslednji blok tela ili cela mreža")
+    parser.add_argument("--img-size", type=int, default=None,
+                        help="VarroaDataset: stranica letterbox kvadrata (podrazumevano 224)")
+    parser.add_argument("--run-name", default=None, help="ime foldera u runs/ (npr. tuning/B_...)")
     args = parser.parse_args(argv)
 
+    if args.dataset == "varroa":
+        args.classes = 2
     set_seed(args.seed)
     device = pick_device()
-    classes = CLASS_ORDER[args.classes]
-    name = run_name(args.arch, args.classes, args.split_prefix)
+    classes = class_order(args.dataset, args.classes)
+    name = args.run_name or run_name(args.arch, args.classes, args.split_prefix, args.dataset)
     out_dir = RUNS / name
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"=== {display_name(args.arch)} | {args.classes} klasa | device: {device} ===")
+    print(f"=== {display_name(args.arch)} | {args.dataset} | {args.classes} klasa | device: {device} ===")
 
-    train_df = load_split(f"{args.split_prefix}train", args.classes)
-    val_df = load_split(f"{args.split_prefix}val", args.classes)
+    train_df = load_split(f"{args.split_prefix}train", args.classes, args.dataset)
+    val_df = load_split(f"{args.split_prefix}val", args.classes, args.dataset)
     if args.limit:
         train_df = train_df.sample(n=min(args.limit, len(train_df)), random_state=args.seed)
         val_df = val_df.sample(n=min(args.limit // 3 or 1, len(val_df)), random_state=args.seed)
     print(f"train: {len(train_df)} slika, val: {len(val_df)} slika")
 
-    model, train_tf, eval_tf = build_model(args.arch, args.classes)
+    model, train_tf, eval_tf = build_model(args.arch, args.classes, preprocessing_for(args.dataset), args.img_size)
     model.to(device)
 
     train_loader = make_loader(train_df, train_tf, args.batch_size, True, args.workers)
@@ -219,7 +235,10 @@ def main(argv=None) -> int:
                  args.epochs_head, args.lr_head, "head", history, state, out_dir)
 
     # --- Faza 2: poslednji blok tela odmrznut, mali LR ---
-    unfreeze_last_block(model, args.arch)
+    if args.finetune_scope == "all":
+        unfreeze_all(model)
+    else:
+        unfreeze_last_block(model, args.arch)
     train_epochs(model, args.arch, train_loader, val_loader, criterion, device,
                  args.epochs_finetune, args.lr_finetune, "finetune", history, state, out_dir)
 
@@ -231,11 +250,14 @@ def main(argv=None) -> int:
         "run": name,
         "arch": args.arch,
         "arch_display": display_name(args.arch),
+        "dataset": args.dataset,
         "num_classes": args.classes,
         "classes": classes,
-        "split_prefix": args.split_prefix or "stratified",
+        "split_prefix": "po_videu" if args.dataset == "varroa" else (args.split_prefix or "stratified"),
         "epochs_head": args.epochs_head,
         "epochs_finetune": args.epochs_finetune,
+        "finetune_scope": args.finetune_scope,
+        "img_size": eval_tf.crop_size[0],
         "batch_size": args.batch_size,
         "lr_head": args.lr_head,
         "lr_finetune": args.lr_finetune,
@@ -249,6 +271,7 @@ def main(argv=None) -> int:
         "best_epoch": state["best_epoch"],
         "train_seconds": round(elapsed, 1),
         "preprocessing": {
+            "mode": preprocessing_for(args.dataset),
             "resize_size": list(eval_tf.resize_size),
             "crop_size": list(eval_tf.crop_size),
             "mean": list(eval_tf.mean),

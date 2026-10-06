@@ -34,9 +34,37 @@ from sklearn.metrics import (
 )
 from torch.utils.data import DataLoader
 
-from .dataset import CLASS_ORDER, VARROA_CLASSES, BeeHealthDataset, load_split
+from .dataset import BeeHealthDataset, class_order, load_split, varroa_classes
 from .models import build_model, count_parameters, pick_device
 from .paths import RUNS
+from .train import preprocessing_for
+
+
+def varroa_extra_metrics(test_df, y_true, y_pred, probs) -> dict:
+    """
+    Za VarroaDataset dodatno: ROC AUC, rezultat po test videu, i recall posebno
+    za originalnu oznaku 1 (grinja jasno vidljiva) i 3 (delimično skrivena).
+    """
+    from sklearn.metrics import roc_auc_score
+
+    df = test_df.assign(true=y_true, pred=y_pred, p_varoa=probs[:, 1])
+    per_video = {
+        video: {
+            "slika": int(len(g)),
+            "udeo_varoe": round(float(g["true"].mean()), 3),
+            "accuracy": round(float((g["true"] == g["pred"]).mean()), 4),
+        }
+        for video, g in df.groupby("video")
+    }
+    recall_by_raw = {
+        str(raw): round(float((g["pred"] == 1).mean()), 4)
+        for raw, g in df[df["true"] == 1].groupby("raw_label")
+    }
+    return {
+        "roc_auc": round(float(roc_auc_score(y_true, probs[:, 1])), 4),
+        "per_video": per_video,
+        "varroa_recall_by_raw_label": recall_by_raw,
+    }
 
 
 def load_run(run: str) -> dict:
@@ -133,25 +161,26 @@ def plot_history(history: pd.DataFrame, title: str, out_path) -> None:
 def evaluate_run(run: str) -> dict:
     config = load_run(run)
     arch, num_classes = config["arch"], config["num_classes"]
-    classes = CLASS_ORDER[num_classes]
+    dataset = config.get("dataset", "beeimage")
+    classes = class_order(dataset, num_classes)
     out_dir = RUNS / run
     device = pick_device()
 
-    print(f"\n=== {config['arch_display']} | {num_classes} klasa | podela: {config['split_prefix']} ===")
+    print(f"\n=== {config['arch_display']} | {dataset} | {num_classes} klasa | podela: {config['split_prefix']} ===")
 
-    model, _, eval_tf = build_model(arch, num_classes)
+    model, _, eval_tf = build_model(arch, num_classes, preprocessing_for(dataset), config.get("img_size"))
     state = torch.load(out_dir / "best.pt", map_location="cpu")
     model.load_state_dict(state)
     model.to(device)
 
     prefix = "loc_" if config["split_prefix"] == "loc_" else ""
-    test_df = load_split(f"{prefix}test", num_classes)
+    test_df = load_split(f"{prefix}test", num_classes, dataset)
     loader = DataLoader(
         BeeHealthDataset(test_df, eval_tf), batch_size=32, shuffle=False, num_workers=4
     )
     print(f"test: {len(test_df)} slika")
 
-    y_true, y_pred, _ = predict(model, loader, device)
+    y_true, y_pred, probs = predict(model, loader, device)
 
     present = sorted(set(y_true.tolist()) | set(y_pred.tolist()))
     report = classification_report(
@@ -164,9 +193,10 @@ def evaluate_run(run: str) -> dict:
     ))
 
     cm = confusion_matrix(y_true, y_pred, labels=list(range(num_classes)))
+    cm_title = (f"{config['arch_display']} — VarroaDataset" if dataset == "varroa"
+                else f"{config['arch_display']} — {num_classes} klasa ({config['split_prefix']})")
     plot_confusion(
-        cm, classes,
-        f"{config['arch_display']} — {num_classes} klasa ({config['split_prefix']})",
+        cm, classes, cm_title,
         out_dir / "confusion_matrix.png",
     )
 
@@ -174,12 +204,12 @@ def evaluate_run(run: str) -> dict:
     if history_path.is_file():
         plot_history(
             pd.read_csv(history_path),
-            f"{config['arch_display']} — {num_classes} klasa",
+            f"{config['arch_display']} — " + ("VarroaDataset" if dataset == "varroa" else f"{num_classes} klasa"),
             out_dir / "learning_curves.png",
         )
 
     # Recall na klasama varoe — najvaznija pojedinacna metrika za pcelara.
-    varroa = [c for c in VARROA_CLASSES[num_classes] if c in classes]
+    varroa = [c for c in varroa_classes(dataset, num_classes) if c in classes]
     varroa_idx = [classes.index(c) for c in varroa]
     varroa_support = int(cm[varroa_idx, :].sum())
     varroa_recall = (
@@ -195,6 +225,7 @@ def evaluate_run(run: str) -> dict:
         "run": run,
         "arch": arch,
         "arch_display": config["arch_display"],
+        "dataset": dataset,
         "num_classes": num_classes,
         "split": config["split_prefix"],
         "test_size": int(len(test_df)),
@@ -221,6 +252,8 @@ def evaluate_run(run: str) -> dict:
         },
         "confusion_matrix": cm.tolist(),
     }
+    if dataset == "varroa":
+        metrics.update(varroa_extra_metrics(test_df, y_true, y_pred, probs))
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2, ensure_ascii=False))
 
     print(
@@ -237,6 +270,7 @@ def build_summary() -> pd.DataFrame:
     for metrics_path in sorted(RUNS.glob("*/metrics.json")):
         m = json.loads(metrics_path.read_text())
         rows.append({
+            "dataset": m.get("dataset", "beeimage"),
             "arhitektura": m["arch_display"],
             "klase": m["num_classes"],
             "podela": m["split"],
@@ -255,7 +289,7 @@ def build_summary() -> pd.DataFrame:
         print("Nema ni jednog metrics.json — pokreni prvo evaluaciju.")
         return pd.DataFrame()
 
-    df = pd.DataFrame(rows).sort_values(["klase", "macro_F1"], ascending=[True, False])
+    df = pd.DataFrame(rows).sort_values(["dataset", "klase", "macro_F1"], ascending=[True, True, False])
     out = RUNS / "summary.csv"
     df.to_csv(out, index=False)
     print(df.to_string(index=False))
@@ -268,6 +302,8 @@ def main(argv=None) -> int:
     parser.add_argument("--run", help="ime foldera u runs/, npr. resnet50_3cls")
     parser.add_argument("--all", action="store_true", help="evaluiraj sve istrenirane runove")
     parser.add_argument("--summary", action="store_true", help="samo sastavi zbirnu tabelu")
+    parser.add_argument("--dataset", choices=["beeimage", "varroa"],
+                        help="uz --all: evaluiraj samo runove ovog dataseta")
     args = parser.parse_args(argv)
 
     if args.summary:
@@ -276,6 +312,8 @@ def main(argv=None) -> int:
 
     if args.all:
         runs = sorted(p.parent.name for p in RUNS.glob("*/best.pt"))
+        if args.dataset:
+            runs = [r for r in runs if load_run(r).get("dataset", "beeimage") == args.dataset]
         if not runs:
             print("Nema istreniranih modela u runs/.")
             return 1

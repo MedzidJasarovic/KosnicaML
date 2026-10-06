@@ -43,9 +43,11 @@ def bench(session, crop: int, batch: int, runs: int) -> np.ndarray:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Latencija ONNX modela")
     parser.add_argument("--runs", type=int, default=60)
+    parser.add_argument("--pattern", default="*.onnx", help="koji modeli iz models/, npr. 'varroa_*.onnx'")
+    parser.add_argument("--out", default="latency_benchmark.csv", help="ime CSV-a u models/")
     args = parser.parse_args(argv)
 
-    models = sorted(MODELS.glob("*.onnx"))
+    models = sorted(MODELS.glob(args.pattern))
     if not models:
         print("Nema ni jednog .onnx modela u models/ — pokreni prvo src.export_onnx.")
         return 1
@@ -57,7 +59,8 @@ def main(argv=None) -> int:
             print(f"Preskacem {path.name}: nema {meta_path.name}")
             continue
         meta = json.loads(meta_path.read_text())
-        crop = meta["preprocessing"]["center_crop"]
+        pre = meta["preprocessing"]
+        crop = pre["size"] if pre.get("mode") == "letterbox" else pre["center_crop"]
 
         session = ort.InferenceSession(str(path), providers=["CPUExecutionProvider"])
         single = bench(session, crop, 1, args.runs)
@@ -83,7 +86,7 @@ def main(argv=None) -> int:
         })
 
     df = pd.DataFrame(rows).sort_values("onnx_batch1_ms")
-    out = MODELS / "latency_benchmark.csv"
+    out = MODELS / args.out
     df.to_csv(out, index=False)
     print(df.to_string(index=False))
     print(f"\nSnimljeno: {out}")

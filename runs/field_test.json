@@ -1,0 +1,101 @@
+{
+  "varroa_efficientnet_b0": {
+    "arch_display": "EfficientNetB0",
+    "field": {
+      "po_slici": [
+        {
+          "fajl": "zdrava/pcela_na_cvetu.jpg",
+          "prava_klasa": "zdrava",
+          "p_varoa": 0.0419
+        },
+        {
+          "fajl": "varoa/makro_pcela_na_sacu_2_grinje.jpg",
+          "prava_klasa": "varoa",
+          "p_varoa": 0.9848
+        }
+      ],
+      "slika": 2,
+      "sa_varoom": 1,
+      "accuracy": 1.0,
+      "recall_varoa": 1.0,
+      "precision_varoa": 1.0,
+      "macro_f1": 1.0,
+      "roc_auc": 1.0
+    },
+    "beedataset": {
+      "slika": 7490,
+      "sa_varoom": 1266,
+      "accuracy": 0.865,
+      "recall_varoa": 0.203,
+      "precision_varoa": 0.9923,
+      "macro_f1": 0.631,
+      "roc_auc": 0.9279
+    }
+  },
+  "varroa_mobilenet_v3_large": {
+    "arch_display": "MobileNetV3-Large",
+    "field": {
+      "po_slici": [
+        {
+          "fajl": "zdrava/pcela_na_cvetu.jpg",
+          "prava_klasa": "zdrava",
+          "p_varoa": 0.1065
+        },
+        {
+          "fajl": "varoa/makro_pcela_na_sacu_2_grinje.jpg",
+          "prava_klasa": "varoa",
+          "p_varoa": 0.1723
+        }
+      ],
+      "slika": 2,
+      "sa_varoom": 1,
+      "accuracy": 0.5,
+      "recall_varoa": 0.0,
+      "precision_varoa": 0.0,
+      "macro_f1": 0.3333,
+      "roc_auc": 1.0
+    },
+    "beedataset": {
+      "slika": 7490,
+      "sa_varoom": 1266,
+      "accuracy": 0.8999,
+      "recall_varoa": 0.4755,
+      "precision_varoa": 0.875,
+      "macro_f1": 0.7793,
+      "roc_auc": 0.9488
+    }
+  },
+  "varroa_resnet50": {
+    "arch_display": "ResNet50",
+    "field": {
+      "po_slici": [
+        {
+          "fajl": "zdrava/pcela_na_cvetu.jpg",
+          "prava_klasa": "zdrava",
+          "p_varoa": 0.0052
+        },
+        {
+          "fajl": "varoa/makro_pcela_na_sacu_2_grinje.jpg",
+          "prava_klasa": "varoa",
+          "p_varoa": 0.9886
+        }
+      ],
+      "slika": 2,
+      "sa_varoom": 1,
+      "accuracy": 1.0,
+      "recall_varoa": 1.0,
+      "precision_varoa": 1.0,
+      "macro_f1": 1.0,
+      "roc_auc": 1.0
+    },
+    "beedataset": {
+      "slika": 7490,
+      "sa_varoom": 1266,
+      "accuracy": 0.8794,
+      "recall_varoa": 0.3049,
+      "precision_varoa": 0.9438,
+      "macro_f1": 0.6965,
+      "roc_auc": 0.8694
+    }
+  }
+}

@@ -28,3 +28,8 @@ BEE_IMAGES_DIR = DATA_RAW / "bee_imgs"
 BEE_CSV = DATA_RAW / "bee_data.csv"
 
 KAGGLE_DATASET = "jenny18/honey-bee-annotated-images"
+
+# VarroaDataset (Schurischuster & Kampel, TU Wien) — Zenodo 10.5281/zenodo.4085044
+VARROA_DIR = _dir("KOSNICA_ML_VARROA", ROOT / "data" / "varroa")
+VARROA_GT = VARROA_DIR / "gt.csv"
+VARROA_ZENODO_RECORD = "4085044"

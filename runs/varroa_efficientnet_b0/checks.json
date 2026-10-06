@@ -1,0 +1,21 @@
+{
+  "run": "varroa_efficientnet_b0",
+  "arch_display": "EfficientNetB0",
+  "masking": {
+    "zarazenih_test_slika": 942,
+    "prepoznato_kao_varoa_original": 0.8418,
+    "ostalo_varoa_kad_se_grinja_prekrije": 0.0315,
+    "ostalo_varoa_kad_se_prekrije_drugo_mesto": 0.9584,
+    "prosecna_p_varoa_original": 0.9213,
+    "prosecna_p_varoa_grinja_prekrivena": 0.0589,
+    "prosecna_p_varoa_drugo_mesto_prekriveno": 0.8937
+  },
+  "background": {
+    "udeo_varoa_uglovi_zdravih": 0.0383,
+    "udeo_varoa_uglovi_zarazenih": 0.0531
+  },
+  "gradcam_pointing": {
+    "uzoraka": 200,
+    "pogodak_u_grinju": 0.87
+  }
+}
