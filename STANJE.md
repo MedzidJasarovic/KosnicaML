@@ -138,10 +138,9 @@ Softversko inženjerstvo potvrđen. Snimci ekrana ubačeni 13.10. (originali `~/
    komplikovana — predložiti ponovo tek ako rezultati to traže).
 3. Snimci ekrana aplikacije za izveštaj → `report/figures/screenshot_*.png`
    (builder ih sam ubacuje u poglavlje o integraciji).
-4. **Nije commit-ovano** (stanje 07.10. noću): novi notebook-ovi 01–05, `grafici/`,
-   `src/predictions.py`, `src/make_prezentacija.py`, prezentacija i podsetnik. Medžid nije
-   odgovorio da li da se commit-uje — pitati. Sve ranije je push-ovano na GitHub
-   (KosnicaML, KosnicaApi, KosnicaUI).
+4. Sve commit-ovano i push-ovano 13.10.2026. Fotografije sopstvenog skupa i grafici
+   06a/06f (prikazuju te fotografije) su u `.gitignore` — repo je javan, slike sa
+   iNaturalist-a ostaju lokalno (Medžidova odluka).
 5. Medžid ide na konsultacije sa `report/prezentacija_konsultacije.pdf`; posle toga
    videti šta profesorica kaže.
 6. **Bezbednost ML servisa** — FastAPI nema autorizaciju; lokalno sluša samo na
