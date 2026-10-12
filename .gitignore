@@ -23,3 +23,9 @@ logs/
 # VarroaDataset (Zenodo 10.5281/zenodo.4085044), preuzima se
 data/varroa/
 data/beedataset/
+
+# Sopstveni validacioni skup: fotografije sa iNaturalist-a ostaju lokalno
+# (oznake.json, gt.csv i izvori.csv se komituju)
+data/sopstveni_skup/**/*.jpg
+grafici/06a_sopstveni_skup.png
+grafici/06f_sopstveni_gradcam.png

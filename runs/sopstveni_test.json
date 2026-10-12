@@ -1,0 +1,737 @@
+{
+  "varroa_efficientnet_b0": {
+    "arch_display": "EfficientNetB0",
+    "cela slika": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.7241,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.4286,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.6947,
+        "roc_auc": 0.8476,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            8,
+            6
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.4266,
+        "prosecna_p_varoa_grinja_prekrivena": 0.036,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.4146,
+        "udeo_varoa_original": 0.4286,
+        "udeo_varoa_grinja_prekrivena": 0.0,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.3571,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.2209,
+            "grinja_prekrivena": 0.1397,
+            "drugo_mesto": 0.2149
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.1942,
+            "grinja_prekrivena": 0.1705,
+            "drugo_mesto": 0.1915
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.0045,
+            "grinja_prekrivena": 0.0024,
+            "drugo_mesto": 0.0032
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.3033,
+            "grinja_prekrivena": 0.0073,
+            "drugo_mesto": 0.2805
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.6904,
+            "grinja_prekrivena": 0.0075,
+            "drugo_mesto": 0.7133
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.5268,
+            "grinja_prekrivena": 0.0495,
+            "drugo_mesto": 0.4412
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0002,
+            "grinja_prekrivena": 0.0011,
+            "drugo_mesto": 0.0002
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.0608,
+            "grinja_prekrivena": 0.0016,
+            "drugo_mesto": 0.0777
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.9663,
+            "grinja_prekrivena": 0.0104,
+            "drugo_mesto": 0.9484
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.7999,
+            "grinja_prekrivena": 0.008,
+            "drugo_mesto": 0.7799
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9652,
+            "grinja_prekrivena": 0.0773,
+            "drugo_mesto": 0.9606
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.1706,
+            "grinja_prekrivena": 0.0282,
+            "drugo_mesto": 0.1847
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.147,
+            "grinja_prekrivena": 0.0002,
+            "drugo_mesto": 0.1455
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.9217,
+            "grinja_prekrivena": 0.0009,
+            "drugo_mesto": 0.8627
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.5
+      }
+    },
+    "isečeno oko pčele": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.7241,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.4286,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.6947,
+        "roc_auc": 0.9381,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            8,
+            6
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.5243,
+        "prosecna_p_varoa_grinja_prekrivena": 0.0141,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.5252,
+        "udeo_varoa_original": 0.4286,
+        "udeo_varoa_grinja_prekrivena": 0.0,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.4286,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.4993,
+            "grinja_prekrivena": 0.0486,
+            "drugo_mesto": 0.4812
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.204,
+            "grinja_prekrivena": 0.0385,
+            "drugo_mesto": 0.1999
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.0063,
+            "grinja_prekrivena": 0.0001,
+            "drugo_mesto": 0.0047
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.9796,
+            "grinja_prekrivena": 0.0478,
+            "drugo_mesto": 0.9792
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.8354,
+            "grinja_prekrivena": 0.0001,
+            "drugo_mesto": 0.8716
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.1939,
+            "grinja_prekrivena": 0.01,
+            "drugo_mesto": 0.1464
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0006,
+            "grinja_prekrivena": 0.0009,
+            "drugo_mesto": 0.0006
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.2836,
+            "grinja_prekrivena": 0.0004,
+            "drugo_mesto": 0.364
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.9624,
+            "grinja_prekrivena": 0.0156,
+            "drugo_mesto": 0.9325
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.8332,
+            "grinja_prekrivena": 0.0165,
+            "drugo_mesto": 0.832
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9932,
+            "grinja_prekrivena": 0.0086,
+            "drugo_mesto": 0.9917
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.3774,
+            "grinja_prekrivena": 0.0098,
+            "drugo_mesto": 0.3848
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.1919,
+            "grinja_prekrivena": 0.0002,
+            "drugo_mesto": 0.1896
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.9788,
+            "grinja_prekrivena": 0.0004,
+            "drugo_mesto": 0.9748
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.7857
+      }
+    }
+  },
+  "varroa_mobilenet_v3_large": {
+    "arch_display": "MobileNetV3-Large",
+    "cela slika": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.6552,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.2857,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.5972,
+        "roc_auc": 0.8048,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            10,
+            4
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.2987,
+        "prosecna_p_varoa_grinja_prekrivena": 0.0377,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.2978,
+        "udeo_varoa_original": 0.2857,
+        "udeo_varoa_grinja_prekrivena": 0.0,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.2857,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.0199,
+            "grinja_prekrivena": 0.0158,
+            "drugo_mesto": 0.0194
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.0198,
+            "grinja_prekrivena": 0.0205,
+            "drugo_mesto": 0.02
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.0241,
+            "grinja_prekrivena": 0.0261,
+            "drugo_mesto": 0.0258
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.055,
+            "grinja_prekrivena": 0.0124,
+            "drugo_mesto": 0.0594
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.018,
+            "grinja_prekrivena": 0.0018,
+            "drugo_mesto": 0.0258
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.0211,
+            "grinja_prekrivena": 0.0065,
+            "drugo_mesto": 0.0185
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0062,
+            "grinja_prekrivena": 0.0106,
+            "drugo_mesto": 0.0054
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.0537,
+            "grinja_prekrivena": 0.0048,
+            "drugo_mesto": 0.0562
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.8926,
+            "grinja_prekrivena": 0.0098,
+            "drugo_mesto": 0.8652
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.2381,
+            "grinja_prekrivena": 0.0052,
+            "drugo_mesto": 0.2693
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9873,
+            "grinja_prekrivena": 0.3976,
+            "drugo_mesto": 0.9857
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.0099,
+            "grinja_prekrivena": 0.0119,
+            "drugo_mesto": 0.0108
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.858,
+            "grinja_prekrivena": 0.0022,
+            "drugo_mesto": 0.8392
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.9785,
+            "grinja_prekrivena": 0.0023,
+            "drugo_mesto": 0.9691
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.6429
+      }
+    },
+    "isečeno oko pčele": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.6897,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.3571,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.6478,
+        "roc_auc": 0.9667,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            9,
+            5
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.3918,
+        "prosecna_p_varoa_grinja_prekrivena": 0.013,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.3862,
+        "udeo_varoa_original": 0.3571,
+        "udeo_varoa_grinja_prekrivena": 0.0,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.3571,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.0258,
+            "grinja_prekrivena": 0.0022,
+            "drugo_mesto": 0.0236
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.0614,
+            "grinja_prekrivena": 0.0134,
+            "drugo_mesto": 0.0553
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.0171,
+            "grinja_prekrivena": 0.0013,
+            "drugo_mesto": 0.016
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.9899,
+            "grinja_prekrivena": 0.0014,
+            "drugo_mesto": 0.9904
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.3181,
+            "grinja_prekrivena": 0.0012,
+            "drugo_mesto": 0.3068
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.0051,
+            "grinja_prekrivena": 0.0005,
+            "drugo_mesto": 0.0055
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0137,
+            "grinja_prekrivena": 0.0153,
+            "drugo_mesto": 0.0123
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.0764,
+            "grinja_prekrivena": 0.008,
+            "drugo_mesto": 0.0736
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.9522,
+            "grinja_prekrivena": 0.007,
+            "drugo_mesto": 0.9011
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.0281,
+            "grinja_prekrivena": 0.0008,
+            "drugo_mesto": 0.0345
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9886,
+            "grinja_prekrivena": 0.0335,
+            "drugo_mesto": 0.9884
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.1268,
+            "grinja_prekrivena": 0.0932,
+            "drugo_mesto": 0.1266
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.895,
+            "grinja_prekrivena": 0.0022,
+            "drugo_mesto": 0.8914
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.9867,
+            "grinja_prekrivena": 0.0017,
+            "drugo_mesto": 0.9811
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.7143
+      }
+    }
+  },
+  "varroa_resnet50": {
+    "arch_display": "ResNet50",
+    "cela slika": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.6552,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.2857,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.5972,
+        "roc_auc": 0.8952,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            10,
+            4
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.4148,
+        "prosecna_p_varoa_grinja_prekrivena": 0.0584,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.4087,
+        "udeo_varoa_original": 0.2857,
+        "udeo_varoa_grinja_prekrivena": 0.0714,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.3571,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.0377,
+            "grinja_prekrivena": 0.0151,
+            "drugo_mesto": 0.0372
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.0605,
+            "grinja_prekrivena": 0.0383,
+            "drugo_mesto": 0.0553
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.066,
+            "grinja_prekrivena": 0.0328,
+            "drugo_mesto": 0.068
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.6206,
+            "grinja_prekrivena": 0.0011,
+            "drugo_mesto": 0.5871
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.4952,
+            "grinja_prekrivena": 0.0009,
+            "drugo_mesto": 0.4975
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.4635,
+            "grinja_prekrivena": 0.0407,
+            "drugo_mesto": 0.4414
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0362,
+            "grinja_prekrivena": 0.0496,
+            "drugo_mesto": 0.0373
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.3601,
+            "grinja_prekrivena": 0.0014,
+            "drugo_mesto": 0.5082
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.4332,
+            "grinja_prekrivena": 0.0001,
+            "drugo_mesto": 0.348
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.1968,
+            "grinja_prekrivena": 0.0492,
+            "drugo_mesto": 0.1942
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9325,
+            "grinja_prekrivena": 0.5138,
+            "drugo_mesto": 0.9344
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.3875,
+            "grinja_prekrivena": 0.012,
+            "drugo_mesto": 0.4181
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.8755,
+            "grinja_prekrivena": 0.0621,
+            "drugo_mesto": 0.8661
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.8415,
+            "grinja_prekrivena": 0.0,
+            "drugo_mesto": 0.7295
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.2143
+      }
+    },
+    "isečeno oko pčele": {
+      "metrike": {
+        "slika": 29,
+        "sa_varoom": 14,
+        "accuracy": 0.7586,
+        "precision_varoa": 1.0,
+        "recall_varoa": 0.5,
+        "recall_zdrava": 1.0,
+        "macro_f1": 0.7387,
+        "roc_auc": 0.9714,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            7,
+            7
+          ]
+        ]
+      },
+      "brisanje_grinje": {
+        "zarazenih_slika": 14,
+        "prosecna_p_varoa_original": 0.4763,
+        "prosecna_p_varoa_grinja_prekrivena": 0.0572,
+        "prosecna_p_varoa_drugo_mesto_prekriveno": 0.48,
+        "udeo_varoa_original": 0.5,
+        "udeo_varoa_grinja_prekrivena": 0.0714,
+        "udeo_varoa_drugo_mesto_prekriveno": 0.5,
+        "po_slici": [
+          {
+            "fajl": "varoa/varoa_01.jpg",
+            "original": 0.0743,
+            "grinja_prekrivena": 0.0004,
+            "drugo_mesto": 0.0735
+          },
+          {
+            "fajl": "varoa/varoa_02.jpg",
+            "original": 0.3237,
+            "grinja_prekrivena": 0.0021,
+            "drugo_mesto": 0.3161
+          },
+          {
+            "fajl": "varoa/varoa_03.jpg",
+            "original": 0.0034,
+            "grinja_prekrivena": 0.0001,
+            "drugo_mesto": 0.0043
+          },
+          {
+            "fajl": "varoa/varoa_04.jpg",
+            "original": 0.933,
+            "grinja_prekrivena": 0.0,
+            "drugo_mesto": 0.8823
+          },
+          {
+            "fajl": "varoa/varoa_05.jpg",
+            "original": 0.919,
+            "grinja_prekrivena": 0.0005,
+            "drugo_mesto": 0.9168
+          },
+          {
+            "fajl": "varoa/varoa_06.jpg",
+            "original": 0.1708,
+            "grinja_prekrivena": 0.0003,
+            "drugo_mesto": 0.2011
+          },
+          {
+            "fajl": "varoa/varoa_07.jpg",
+            "original": 0.0384,
+            "grinja_prekrivena": 0.0522,
+            "drugo_mesto": 0.041
+          },
+          {
+            "fajl": "varoa/varoa_08.jpg",
+            "original": 0.3191,
+            "grinja_prekrivena": 0.0016,
+            "drugo_mesto": 0.4127
+          },
+          {
+            "fajl": "varoa/varoa_09.jpg",
+            "original": 0.0945,
+            "grinja_prekrivena": 0.0002,
+            "drugo_mesto": 0.0851
+          },
+          {
+            "fajl": "varoa/varoa_10.jpg",
+            "original": 0.5593,
+            "grinja_prekrivena": 0.0182,
+            "drugo_mesto": 0.5423
+          },
+          {
+            "fajl": "varoa/varoa_11.jpg",
+            "original": 0.9564,
+            "grinja_prekrivena": 0.7098,
+            "drugo_mesto": 0.9582
+          },
+          {
+            "fajl": "varoa/varoa_12.jpg",
+            "original": 0.6029,
+            "grinja_prekrivena": 0.0035,
+            "drugo_mesto": 0.636
+          },
+          {
+            "fajl": "varoa/varoa_13.jpg",
+            "original": 0.6889,
+            "grinja_prekrivena": 0.0119,
+            "drugo_mesto": 0.67
+          },
+          {
+            "fajl": "varoa/varoa_14.jpg",
+            "original": 0.985,
+            "grinja_prekrivena": 0.0,
+            "drugo_mesto": 0.9806
+          }
+        ]
+      },
+      "gradcam_pointing": {
+        "slika": 14,
+        "pogodak_u_grinju": 0.4286
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ grinja je često baš tamo.
 from __future__ import annotations
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 # ImageNet srednja boja: posle normalizacije daje vrednosti blizu 0,
 # pa dopuna ne unosi "signal" u mrežu.
@@ -19,7 +19,8 @@ PAD_COLOR = (124, 116, 104)
 
 
 def letterbox(image: Image.Image, size: int) -> Image.Image:
-    image = image.convert("RGB")
+    # fotografije sa telefona su često snimljene zarotirane, uz EXIF oznaku za rotaciju
+    image = ImageOps.exif_transpose(image).convert("RGB")
     w, h = image.size
     scale = size / max(w, h)
     new_w, new_h = max(1, round(w * scale)), max(1, round(h * scale))

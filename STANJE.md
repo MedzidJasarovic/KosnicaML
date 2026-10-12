@@ -7,7 +7,9 @@ Ovaj dokument služi da se rad nastavi tačno odakle je prekinut.
 - **Konačni izveštaj za profesoricu:** [`report/izvestaj_final.pdf`](report/izvestaj_final.pdf)
   i [`report/izvestaj_final.docx`](report/izvestaj_final.docx) (generiše ih `python -m src.make_final_report`)
 - Radni dnevnik nalaza: [`report/NALAZI.md`](report/NALAZI.md)
-- Notebook-ovi: `notebooks/01_analiza_dataseta.ipynb`, `02_trening_i_poredjenje.ipynb`, `03_provera_modela.ipynb`
+- **Za konsultacije:** [`report/prezentacija_konsultacije.pdf`](report/prezentacija_konsultacije.pdf) (27 slajdova) i
+  [`report/podsetnik_konsultacije.pdf`](report/podsetnik_konsultacije.pdf) (šta reći + odgovori na pitanja) — `python -m src.make_prezentacija`
+- Notebook-ovi: `notebooks/01`–`05` (KORAK 1–5, stil kao EnergyConsumptionMLProject), grafici u `grafici/`
 
 ---
 
@@ -81,11 +83,50 @@ Probne slike iz test skupa: `data/probne_slike/` (prava klasa u imenu fajla).
 ./run_varroa.sh                       # ceo eksperiment (~1,5 h na M5); preskače već istrenirane
 python -m src.field_test              # posle dodavanja fotografija u data/field_photos/{zdrava,varoa}/
 python -m src.make_final_report       # izveštaj (md, docx, pdf)
+python -m src.predictions              # keš verovatnoća za notebook-ove (posle novog treninga)
 ./.venv/bin/python notebooks/build_notebooks.py && ./.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb
+python -m src.make_prezentacija       # prezentacija + podsetnik
 ```
 
 Dug trening pokretati sa `nohup ... &` — alat za pozadinske komande u Claude Code
 prekida posle 2 sata (desilo se 06.10. usred ResNet50).
+
+## Sopstveni test skup (u toku, od 12.10.)
+
+Profesorica traži sopstveni skup od ~40 slika, ocenjen kao prethodni. Napravljeno:
+- `data/sopstveni_skup/{zdrava,varoa}/` — 15 + 14 slika sa iNaturalist-a (Medžid preuzeo,
+  linkovi nisu sačuvani; `izvori.csv` = originalna imena). Medžid: ništa se ne izbacuje
+  (varoa_01 i varoa_02 su ista pčela; zdrava_04/06 i varoa_04 imaju malu pčelu u kadru).
+- `python -m src.annotate` — alat u browseru: pravougaonik oko pčele + oko svake grinje →
+  `oznake.json` i `gt.csv` (format kao VarroaDataset)
+- `python -m src.sopstveni_test` — 3 modela × (cela slika, isečeno oko pčele): metrike,
+  brisanje grinje, Grad-CAM → `runs/sopstveni_test.json`, `grafici/06a–06f`
+- `service/preprocessing.py` sada poštuje EXIF rotaciju (slike sa telefona)
+
+Medžid označio sve slike 12.10. (15 grinja). Rezultati (`runs/sopstveni_test.json`):
+
+| Model | acc cela / isečeno | recall varoa cela / isečeno | AUC cela / isečeno | P(varoa): original → grinja prekrivena / drugo mesto (isečeno) |
+|---|---|---|---|---|
+| MobileNetV3-Large | 0,655 / 0,690 | 0,29 / 0,36 | 0,805 / 0,967 | 0,39 → 0,01 / 0,39 |
+| **ResNet50** | 0,655 / **0,759** | 0,29 / **0,50** | 0,895 / **0,971** | 0,48 → 0,06 / 0,48 |
+| EfficientNetB0 | 0,724 / 0,724 | 0,43 / 0,43 | 0,848 / 0,938 | 0,52 → 0,01 / 0,53 |
+
+Svih 15 zdravih tačno kod svih modela. Zaključci: (1) model gleda grinju i na tuđim
+fotografijama — prekrivanje grinje obara P(varoa) skoro na 0, kontrola ne menja ništa;
+(2) model je previše oprezan na pragu 0,5 (kao na BeeDataset-u) — AUC visok, recall nizak;
+kod ResNet50 isečeno 12/14 zaraženih ima P(varoa) iznad svih zdravih, a samo 7/14 ≥ 0,5;
+(3) isecanje oko pčele pomaže (AUC 0,90 → 0,97 za ResNet50). Prag NE birati na ovom skupu
+(to bi bilo podešavanje na testu) — predlog za rad: buduće unapređenje.
+
+## Diplomski rad (od 12.10.)
+
+Nacrt celog rada je u `~/Kosnica_IS/diplomski/` (uputstvo: `diplomski/README.md`), po
+strukturi koju je dala profesorica i formatiranju Ilhanovog rada (`~/Downloads/IlhanovDiplomski.docx`).
+Izgradnja: `./.venv/bin/python alati/build.py` → `izlaz/Diplomski_Medzid_Jasarovic.docx` + `.pdf` (57 str.).
+Mentor: Prof. dr Ulfeta Marovac. Naslov (13.10.): „PROJEKTOVANJE I IMPLEMENTACIJA
+INFORMACIONOG SISTEMA ZA UPRAVLJANJE PČELINJACIMA NA PRIMERU APLIKACIJE „KOŠNICA““; program
+Softversko inženjerstvo potvrđen. Snimci ekrana ubačeni 13.10. (originali `~/Desktop/SlikeProjekta/`;
+14_poslodavci izostavljen, umesto njega `blizina_pcelinjaka.png`). Rad: 64 strane, nema praznih mesta.
 
 ## Otvoreno / sledeće
 
@@ -97,4 +138,14 @@ prekida posle 2 sata (desilo se 06.10. usred ResNet50).
    komplikovana — predložiti ponovo tek ako rezultati to traže).
 3. Snimci ekrana aplikacije za izveštaj → `report/figures/screenshot_*.png`
    (builder ih sam ubacuje u poglavlje o integraciji).
-4. Ništa od rada od 06.10. nije commit-ovano (KosnicaML, KosnicaApi, KosnicaUI).
+4. **Nije commit-ovano** (stanje 07.10. noću): novi notebook-ovi 01–05, `grafici/`,
+   `src/predictions.py`, `src/make_prezentacija.py`, prezentacija i podsetnik. Medžid nije
+   odgovorio da li da se commit-uje — pitati. Sve ranije je push-ovano na GitHub
+   (KosnicaML, KosnicaApi, KosnicaUI).
+5. Medžid ide na konsultacije sa `report/prezentacija_konsultacije.pdf`; posle toga
+   videti šta profesorica kaže.
+6. **Bezbednost ML servisa** — FastAPI nema autorizaciju; lokalno sluša samo na
+   127.0.0.1, ali Dockerfile koristi `--host 0.0.0.0`. Predloženo (čeka odluku):
+   API ključ (`X-Api-Key`, promenljiva okruženja na obe strane) + mrežna izolacija
+   u produkciji. Autorizacija korisnika je na .NET strani (JWT + vlasništvo nad košnicom).
+7. Predložena skripta `start.sh` koja jednom komandom pokreće ML servis, backend i frontend.

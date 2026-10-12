@@ -1,0 +1,367 @@
+{
+ "zdrava/zdrava_01.jpg": {
+  "pcela": [
+   222,
+   238,
+   739,
+   803
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_02.jpg": {
+  "pcela": [
+   245,
+   238,
+   514,
+   556
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_03.jpg": {
+  "pcela": [
+   196,
+   61,
+   828,
+   460
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_04.jpg": {
+  "pcela": [
+   304,
+   342,
+   620,
+   732
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_05.jpg": {
+  "pcela": [
+   182,
+   177,
+   760,
+   807
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_06.jpg": {
+  "pcela": [
+   339,
+   241,
+   653,
+   519
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_07.jpg": {
+  "pcela": [
+   70,
+   332,
+   474,
+   615
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_08.jpg": {
+  "pcela": [
+   206,
+   190,
+   841,
+   825
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_09.jpg": {
+  "pcela": [
+   174,
+   254,
+   574,
+   789
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_10.jpg": {
+  "pcela": [
+   180,
+   236,
+   834,
+   850
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_11.jpg": {
+  "pcela": [
+   209,
+   140,
+   660,
+   469
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_12.jpg": {
+  "pcela": [
+   33,
+   264,
+   579,
+   818
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_13.jpg": {
+  "pcela": [
+   79,
+   79,
+   839,
+   829
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_14.jpg": {
+  "pcela": [
+   114,
+   79,
+   807,
+   952
+  ],
+  "grinje": []
+ },
+ "zdrava/zdrava_15.jpg": {
+  "pcela": [
+   108,
+   55,
+   313,
+   280
+  ],
+  "grinje": []
+ },
+ "varoa/varoa_01.jpg": {
+  "pcela": [
+   40,
+   132,
+   531,
+   666
+  ],
+  "grinje": [
+   [
+    392,
+    239,
+    462,
+    311
+   ]
+  ]
+ },
+ "varoa/varoa_02.jpg": {
+  "pcela": [
+   199,
+   178,
+   759,
+   664
+  ],
+  "grinje": [
+   [
+    607,
+    318,
+    670,
+    387
+   ]
+  ]
+ },
+ "varoa/varoa_03.jpg": {
+  "pcela": [
+   87,
+   236,
+   459,
+   512
+  ],
+  "grinje": [
+   [
+    275,
+    316,
+    344,
+    371
+   ]
+  ]
+ },
+ "varoa/varoa_04.jpg": {
+  "pcela": [
+   49,
+   318,
+   463,
+   688
+  ],
+  "grinje": [
+   [
+    192,
+    441,
+    266,
+    509
+   ]
+  ]
+ },
+ "varoa/varoa_05.jpg": {
+  "pcela": [
+   237,
+   81,
+   866,
+   576
+  ],
+  "grinje": [
+   [
+    577,
+    273,
+    636,
+    319
+   ]
+  ]
+ },
+ "varoa/varoa_06.jpg": {
+  "pcela": [
+   201,
+   351,
+   802,
+   884
+  ],
+  "grinje": [
+   [
+    297,
+    450,
+    383,
+    541
+   ]
+  ]
+ },
+ "varoa/varoa_07.jpg": {
+  "pcela": [
+   153,
+   147,
+   701,
+   914
+  ],
+  "grinje": [
+   [
+    463,
+    376,
+    530,
+    450
+   ]
+  ]
+ },
+ "varoa/varoa_08.jpg": {
+  "pcela": [
+   237,
+   203,
+   813,
+   873
+  ],
+  "grinje": [
+   [
+    416,
+    580,
+    513,
+    648
+   ]
+  ]
+ },
+ "varoa/varoa_09.jpg": {
+  "pcela": [
+   136,
+   86,
+   810,
+   828
+  ],
+  "grinje": [
+   [
+    405,
+    292,
+    499,
+    375
+   ]
+  ]
+ },
+ "varoa/varoa_10.jpg": {
+  "pcela": [
+   69,
+   54,
+   360,
+   265
+  ],
+  "grinje": [
+   [
+    226,
+    124,
+    253,
+    160
+   ]
+  ]
+ },
+ "varoa/varoa_11.jpg": {
+  "pcela": [
+   326,
+   41,
+   837,
+   678
+  ],
+  "grinje": [
+   [
+    553,
+    365,
+    640,
+    428
+   ]
+  ]
+ },
+ "varoa/varoa_12.jpg": {
+  "pcela": [
+   1,
+   239,
+   627,
+   960
+  ],
+  "grinje": [
+   [
+    366,
+    515,
+    441,
+    606
+   ]
+  ]
+ },
+ "varoa/varoa_13.jpg": {
+  "pcela": [
+   177,
+   25,
+   960,
+   761
+  ],
+  "grinje": [
+   [
+    395,
+    278,
+    504,
+    384
+   ]
+  ]
+ },
+ "varoa/varoa_14.jpg": {
+  "pcela": [
+   216,
+   25,
+   619,
+   551
+  ],
+  "grinje": [
+   [
+    389,
+    293,
+    452,
+    350
+   ],
+   [
+    358,
+    78,
+    431,
+    132
+   ]
+  ]
+ }
+}

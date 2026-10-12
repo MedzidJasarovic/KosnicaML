@@ -1025,13 +1025,19 @@ python -m src.shortcut_test     # test prečice
 
 ## Notebook-ovi
 
-U folderu `notebooks/`, bez ponovnog treninga — čitaju gotove rezultate:
+U folderu `notebooks/`, u pet koraka. Ne treniraju ništa — čitaju gotove rezultate,
+crtaju grafike i čuvaju ih u `grafici/`:
 
 | Notebook | Sadržaj |
 |---|---|
-| `01_analiza_dataseta.ipynb` | BeeImage i VarroaDataset: klase, snimci, podela, primeri |
-| `02_trening_i_poredjenje.ipynb` | transfer learning, krive učenja, poređenje tri arhitekture |
-| `03_provera_modela.ipynb` | da li model gleda grinju, test van skupa, test kroz servis |
+| `01_dataseti.ipynb` | pregled skupova, BeeImage (snimci po klasi, curenje), VarroaDataset |
+| `02_prvi_eksperiment_beeimage.ipynb` | rezultati BeeImage modela, ručni test, test prečice |
+| `03_transfer_learning_i_trening.ipynb` | transfer learning, letterbox, augmentacija, izbor protokola, krive učenja |
+| `04_evaluacija_i_poredjenje.ipynb` | metrike, matrice konfuzije, ROC krive, analiza grešaka |
+| `05_provera_i_izbor_modela.ipynb` | brisanje grinje, pozadina, Grad-CAM, BeeDataset, terenske fotografije, izbor |
+
+Generišu se iz `notebooks/build_notebooks.py`. Prezentacija za konsultacije:
+`python -m src.make_prezentacija` → `report/prezentacija_konsultacije.pdf`.
 
 ## Pokretanje aplikacije
 
